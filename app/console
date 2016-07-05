@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+set_time_limit(0);
+
+$app = require_once dirname(__DIR__) ."/bootstrap.php";
+
+$console = &$app["console"];
+
+$console->add(new Command\SyncGeography());
+$console->add(new Command\DownloadGeography());
+$console->add(new Command\DownloadPackages());
+$console->add(new Command\SyncHotels());
+$console->run();

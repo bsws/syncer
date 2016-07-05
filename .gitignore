@@ -1,0 +1,7 @@
+config/Keys.php
+uploadwork.sh
+var/cache/
+var/log/
+composer.lock
+vendor/
+var/download/
