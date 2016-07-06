@@ -4,7 +4,8 @@
         "doctrine/dbal": "^2.5",
         "symfony/console": "^3.1",
 		"knplabs/console-service-provider": "dev-master",
-        "symfony/filesystem": "^3.1"
+        "symfony/filesystem": "^3.1",
+        "monolog/monolog": "^1.20"
     },
     "autoload": {
         "psr-4": {
