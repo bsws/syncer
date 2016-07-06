@@ -3,6 +3,9 @@ namespace Service;
 
 use Entity\Hotel as HotelEntity;
 use Hydrator\Hotel as HotelHydrator;
+use Metadata\Hotel as HotelMetadata;
+use Metadata\Description as DescriptionMetadata;
+use Metadata\HotelRoom as HotelRoomMetadata;
 
 //@TODO - finish the work to complete the update of the hotel data and annexes
 
@@ -189,46 +192,17 @@ class Hotel extends Generic
             die();
         }
     }
-    
-    /**
-    *  hotel table column with aliases for select query
-    */
-    public function getAliasColumns()
-    {
-        return [
-            'h.id' => 'h_id',
-            'h.provider_id' => 'h_provider_id',
-            'h.id_at_provider' => 'h_id_at_provider',
-            'h.source' => 'h_source',
-            'h.source_id' => 'h_source_id',
-            'h.code' => 'h_code',
-            'h.name' => 'h_name',
-            'h.stars' => 'h_stars',
-            'h.description' => 'h_description',
-            'h.address' => 'h_address',
-            'h.zip' => 'h_zip',
-            'h.phone' => 'h_phone',
-            'h.fax' => 'h_fax',
-            'h.location' => 'h_location',
-            'h.url' => 'h_url',
-            'h.latitude' => 'h_latitude',
-            'h.longitude' => 'h_longitude',
-            'h.extra_class' => 'h_extra_class',
-            'h.use_individually' => 'h_use_individually',
-            'h.use_on_packages' => 'h_use_on_packages',
-            'h.property_type' => 'h_property_type',
-        ];
-    }
 
     public function getSelectSql()
     {
         $app = $this->getSilexApplication();
-        $hotelAliasColumns = $this->getAliasColumns();
-        $roomTypeAliasColumns = $app['service.hotel_room']->getAliasColumns();
-        $descriptionAliasColumns = $app['service.description']->getAliasColumns();
+        $hotelAliasColumns = HotelMetadata::dbColumnsAliases();
+        $roomTypeAliasColumns = HotelRoomMetadata::dbColumnsAliases();
+        $descriptionAliasColumns = DescriptionMetadata::dbColumnsAliases();
 
         $cols = $hotelAliasColumns + $roomTypeAliasColumns + $descriptionAliasColumns;
         $colsCount = count($cols);
+
         $count = 0;
 
         $q = "
@@ -245,9 +219,9 @@ class Hotel extends Generic
             }
         $q .= " 
             FROM 
-                hotel h
-                LEFT JOIN hotel_room_category hrc ON hrc.hotel_id = h.id
-                LEFT JOIN hotel_detailed_description dd ON dd.hotel_id = h.id
+                ".HotelMetadata::$table." h
+                LEFT JOIN ".HotelRoomMetadata::$table." hrc ON hrc.hotel_id = h.id
+                LEFT JOIN ".DescriptionMetadata::$table." hdd ON hdd.hotel_id = h.id
             WHERE
                 h.provider_id = :provider_id
                 AND h.id_at_provider = :id_at_provider

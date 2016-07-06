@@ -8,6 +8,7 @@ class RoomCategory implements RoomCategoryable
     protected $id;
     protected $providerId;
     protected $idAtProvider;
+    protected $hotelId;
     protected $name;
     protected $description;
     protected $Images;
@@ -45,6 +46,17 @@ class RoomCategory implements RoomCategoryable
         return $this;
     }
 
+    public function getHotelId()
+    {
+        return $this->hotelId;
+    }
+
+    public function setHotelId($hotelId)
+    {
+        $this->hotelId = $hotelId;
+        return $this;
+    }
+
     public function getName()
     {
         return $this->name;
@@ -73,8 +85,13 @@ class RoomCategory implements RoomCategoryable
         return $this;
     }
 
-    public function getImages($Images)
+    public function getImages()
     {
         return $this->Images;
+    }
+
+    public function toArray()
+    {
+
     }
 }

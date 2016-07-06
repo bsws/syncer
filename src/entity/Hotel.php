@@ -331,4 +331,9 @@ class Hotel implements Hotelable
     {
         return $this->propertyType;
     }
+
+    public function toArray()
+    {
+
+    }
 }

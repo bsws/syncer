@@ -12,8 +12,10 @@
             "": "src/",
             "Command\\": "src/command/",
             "Service\\": "src/service/",
+            "Hydrator\\": "src/hydrator/",
             "Interfaces\\": "src/interfaces/",
             "Entity\\": "src/entity/",
+            "Metadata\\": "src/metadata/",
             "Config\\": "config/"
         }
     }

@@ -39,7 +39,6 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 ));
 
 #### app services ####
-
 $app['service.provider'] = function($app){
     return new ProviderService($app);
 };

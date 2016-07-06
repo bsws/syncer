@@ -114,17 +114,4 @@ class HotelRoom extends Generic
         return $newObj;
     }
 
-    /**
-    *  hotel room table column with aliases for select query
-    */
-    public function getAliasColumns()
-    {
-        return [
-            'hrc.id' => 'hrc_id',
-            'hrc.id_at_provider' => 'hrc_id_at_provider',
-            'hrc.hotel_id' => 'hrc_hotel_id',
-            'hrc.name' => 'hrc_name',
-            'hrc.description' => 'hrc_description'
-        ];
-    }
 }
