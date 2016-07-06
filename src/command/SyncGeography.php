@@ -39,7 +39,7 @@ class SyncGeography extends \Knp\Command\Command
             $data = json_decode(file_get_contents($app['settings']['geographyDownloadDir'].$providerIdent."/chrGeography.json"));
             $o = $service->translateFromStdObject($data, $providerData['id']);
             $synced = $service->sync($o, $providerData['id']);
-            echo "\r\nSynced: ",$synced,"\r\n";
+            echo "Synced: ",$synced,"\r\n";
             die;
         }
 

@@ -71,10 +71,12 @@ class Geography extends Generic
         $this->getDb()->insert('geography', $arrData);
         $insertId = $this->getDb()->lastInsertId();
 
+        $objToInsert->setId($insertId);
+
         if(is_array($objToInsert->getChildren()) && count($objToInsert->getChildren())) {
             $Children = $objToInsert->getChildren();
             foreach($Children as $child) {
-                $child->setParentId($insertId);
+                $child->setParentId($objToInsert->getId());
                 $this->insertGeography($child);
             }
         }
@@ -92,7 +94,7 @@ class Geography extends Generic
             $this->insertGeography($geographyObject);
         }
 
-        echo "Ok";
-        die;
+        return true;
+
     }
 }
