@@ -16,6 +16,7 @@
             "Interfaces\\": "src/interfaces/",
             "Entity\\": "src/entity/",
             "Metadata\\": "src/metadata/",
+            "Comparer\\": "src/comparer/",
             "Config\\": "config/"
         }
     }

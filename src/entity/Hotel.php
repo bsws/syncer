@@ -3,8 +3,9 @@
 namespace Entity;
 
 use Interfaces\Hotelable;
+use Entity\Generic as GenericModel;
 
-class Hotel implements Hotelable
+class Hotel extends GenericModel implements Hotelable
 {
 	protected $id;
 	protected $providerId;

@@ -6,6 +6,7 @@ use Hydrator\Hotel as HotelHydrator;
 use Metadata\Hotel as HotelMetadata;
 use Metadata\Description as DescriptionMetadata;
 use Metadata\HotelRoom as HotelRoomMetadata;
+use Comparer\Hotel as HotelComparer;
 
 //@TODO - finish the work to complete the update of the hotel data and annexes
 
@@ -155,6 +156,14 @@ class Hotel extends Generic
 
         //search for the object in DB
         $dbHotel = $this->getHotelFromDb($hotel->getProviderId(), $hotel->getIdAtProvider());
+        $unequalFields = HotelComparer::compare($hotel, $dbHotel);
+        ######################################
+        echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+        echo '<pre>';
+        print_r($unequalFields);
+        echo '</pre>';
+        die;
+        ######################################
         $unequalFields = $this->getUnequalFields($hotel, $dbHotel);
 
         if(!empty($unequalFields)) {
@@ -243,24 +252,17 @@ class Hotel extends Generic
 
                 //room categories
                 if($m == "getRoomCategories") {
-                    ######################################
-                    echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
-                    echo '<pre>';
-                    print_r($providerHotel);
-                    echo '</pre>';
-                    die;
-                    ######################################
                     $providerCol = $providerHotel->getRoomCategories();
-                    ######################################
-                    echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
-                    echo '<pre>';
-                    print_r($providerCol);
-                    echo '</pre>';
-                    die;
-                    ######################################
                     $dbCol = $dbHotel->getRoomCategories();
 
                     $equalsRoomCategories = $this->app['service.hotel_room']->equalsCollections($providerCol, $dbCol);
+                    ######################################
+                    echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+                    echo '<pre>';
+                    print_r($equalsRoomCategories);
+                    echo '</pre>';
+                    die;
+                    ######################################
                     if(!$equalsRoomCategories) $unequalities[] = "getRoomCategories";
 
                     continue;
