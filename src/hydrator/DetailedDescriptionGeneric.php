@@ -25,9 +25,9 @@ class DetailedDescriptionGeneric implements Hydrators
         } else {
             //$newObj->setProviderId($o['dd_provider_id']);
             //$newObj->setHotelId($o['dd_hotel_id']);
-            $newObj->setLabel($o->label);
-            $newObj->setText($o->text);
-            $newObj->setIndex($o->index);
+            $newObj->setLabel($o->Label);
+            $newObj->setText($o->Text);
+            $newObj->setIndex($o->Index);
         }
 
         return $newObj;

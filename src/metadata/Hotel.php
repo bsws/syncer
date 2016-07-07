@@ -31,4 +31,5 @@ class Hotel implements \Interfaces\Metadata
             'h.property_type' => 'h_property_type',
         ];
     }
+
 }

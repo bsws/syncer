@@ -137,8 +137,6 @@ class Hotel extends Generic
         $q = $this->getSelectSql();
         $dbArr = $this->getDb()->fetchAll($q, ["provider_id" => $providerId, "id_at_provider" => $idAtProvider]);
 
-        //
-
         //hydrate
         $dbHotel = $this->getHydrated($dbArr);
 
@@ -245,7 +243,21 @@ class Hotel extends Generic
 
                 //room categories
                 if($m == "getRoomCategories") {
+                    ######################################
+                    echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+                    echo '<pre>';
+                    print_r($providerHotel);
+                    echo '</pre>';
+                    die;
+                    ######################################
                     $providerCol = $providerHotel->getRoomCategories();
+                    ######################################
+                    echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+                    echo '<pre>';
+                    print_r($providerCol);
+                    echo '</pre>';
+                    die;
+                    ######################################
                     $dbCol = $dbHotel->getRoomCategories();
 
                     $equalsRoomCategories = $this->app['service.hotel_room']->equalsCollections($providerCol, $dbCol);

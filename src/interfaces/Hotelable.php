@@ -83,6 +83,4 @@ interface Hotelable
 
 	public function getPropertyType();
 	public function setPropertyType($propertyType);
-
-    public function toArray();
 }

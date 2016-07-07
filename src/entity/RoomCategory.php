@@ -90,8 +90,21 @@ class RoomCategory implements RoomCategoryable
         return $this->Images;
     }
 
-    public function toArray()
+    public function toArray($deep = false)
     {
+        $retArr = [
+            'id' => $this->getId(),
+            'provider_id' => $this->getProviderId(),
+            'id_at_provider' => $this->getIdAtProvider(),
+            'hotel_id' => $this->getHotelId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+        ];
 
+        if($deep) {
+            $retArr['Images'] = [];
+        }
+
+        return $retArr;
     }
 }

@@ -66,4 +66,15 @@ class Image implements Imageable
         $this->name = $name;
         return $this;
     }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'provider_id' => $this->getProviderId(),
+            'id_at_provider' => $this->getIdAtProvider(),
+            'mime_type' => $this->getMimeType(),
+            'name' => $this->getName()
+        ];
+    }
 }

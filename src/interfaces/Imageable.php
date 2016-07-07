@@ -1,20 +1,20 @@
 <?php
 namespace Interfaces;
 
-class Imageable
+interface Imageable
 {
-    public function setId($id){}
-    public function getId(){}
+    public function setId($id);
+    public function getId();
 
-    public function setProviderId($providerId){}
-    public function getProviderId(){}
+    public function setProviderId($providerId);
+    public function getProviderId();
 
-    public function setIdAtProvider($idAtProvider){}
-    public function getIdAtProvider(){}
+    public function setIdAtProvider($idAtProvider);
+    public function getIdAtProvider();
 
-    public function setMimeType($mimeType){}
-    public function getMimeType(){}
+    public function setMimeType($mimeType);
+    public function getMimeType();
 
-    public function setName($name){}
-    public function getName(){}
+    public function setName($name);
+    public function getName();
 }

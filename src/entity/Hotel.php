@@ -34,6 +34,15 @@ class Hotel implements Hotelable
 	protected $useOnPackages;
 	protected $propertyType;
 
+    public function __construct()
+    {
+        $this->RoomCategories = [];
+        $this->Images = [];
+        $this->DetailedDescriptions = [];
+        $this->HotelAmenities = [];
+        $this->RoomAmenities = [];
+    }
+
 	public function setId($id) 
     {
         $this->id = $id;
@@ -332,8 +341,73 @@ class Hotel implements Hotelable
         return $this->propertyType;
     }
 
-    public function toArray()
+    public function addRoomCategory(\Entity\RoomCategory $roomCategory)
     {
+        $this->RoomCategories[] = $roomCategory;
+    }
 
+    public function addImage(\Entity\Image $image)
+    {
+        $this->Images[] = $image;
+    }
+
+    public function addDetailedDescription(\Entity\DetailedDescription $detailedDescription)
+    {
+        $this->DetailedDescriptions[] = $detailedDescription;
+    }
+
+    public function toArray($deep = false)
+    {
+        $retArr = [
+            'id' => $this->getId(),
+            'provider_id' => $this->getProviderId(),
+            'id_at_provider' => $this->getIdAtProvider(),
+            'source' => $this->getSource(),
+            'source_id' => $this->getSourceId(),
+            'code' => $this->getCode(),
+            'name' => $this->getName(),
+            'stars' => $this->getStars(),
+            'description' => $this->getDescription(),
+            'address' => $this->getAddress(),
+            'zip' => $this->getZip(),
+            'phone' => $this->getPhone(),
+            'fax' => $this->getFax(),
+            'location' => $this->getLocation(),
+            'url' => $this->getUrl(),
+            'latitude' => $this->getLatitude(),
+            'longitude' => $this->getLongitude(),
+            'extra_class' => $this->getExtraClass(),
+            'use_individually' => $this->getUseIndividually(),
+            'use_on_packages' => $this->getUseOnPackages(),
+            'property_type' => $this->getPropertyType(),
+        ];
+
+        if($deep) {
+            $retArr['RoomCategories'] = array_map(
+                function($roomCategory) { 
+                    return $roomCategory->toArray(); 
+                    }, 
+                    $this->getRoomCategories()
+                );
+            $retArr['Images'] = array_map(
+                function($image) { 
+                    return $image->toArray(); 
+                    }, 
+                    $this->getImages()
+                );
+            $retArr['DetailedDescriptions'] = array_map(
+                function($detailedDescription) { 
+                    return $detailedDescription->toArray(); 
+                    }, 
+                    $this->getDetailedDescriptions()
+                );
+            $retArr['HotelAmenities'] = [];
+            $retArr['RoomAmenities'] = [];
+            $retArr['HotelTheme'] = [];
+        }
+
+        //room categories
+
+        return $retArr;
     }
 }

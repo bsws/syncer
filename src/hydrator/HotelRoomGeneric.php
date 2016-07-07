@@ -25,7 +25,9 @@ class HotelRoomGeneric implements Hydrators
         } else {
             //$newObj->setId($o->Id);
             $newObj->setIdAtProvider($o->Id);
-            $newObj->setHotelId($o->HotelId);
+            if(!empty($o->HotelId)) {
+                $newObj->setHotelId($o->HotelId);
+            }
             $newObj->setName($o->Name);
             $newObj->setDescription($o->Description);
             $newObj->setImages([]);

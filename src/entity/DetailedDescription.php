@@ -1,5 +1,5 @@
 <?php
-namespace Enitity;
+namespace Entity;
 
 class DetailedDescription
 {

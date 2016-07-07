@@ -26,6 +26,7 @@ class HotelChristiantour implements Hydrators
         $newObj->setProviderId($this->getProviderId());
 
         $hotelRoomHydrator = HotelRoom::getInstance();
+        $imagesHydrator = Image::getInstance();
         $detailedDescriptionHydrator = DetailedDescription::getInstance();
 
         if(is_array($inData)) {
@@ -98,16 +99,33 @@ class HotelChristiantour implements Hydrators
             $newObj->setUrl($o->URL);
             $newObj->setLatitude($o->Latitude);
             $newObj->setLongitude($o->Longitude);
-            $newObj->setRoomCategories($o->RoomCategories);
-            $newObj->setImages($o->Images);
-            $newObj->setDetailedDescriptions($o->DetailedDescriptions);
-            $newObj->setHotelTheme($o->HotelTheme);
-            $newObj->setHotelAmenities($o->HotelAmenities);
-            $newObj->setRoomAmenities($o->RoomAmenities);
             $newObj->setExtraClass($o->ExtraClass);
             $newObj->setUseIndividually($o->UseIndividually);
             $newObj->setUseOnPackages($o->UseOnPackages);
             $newObj->setPropertyType($o->PropertyType);
+
+            //relations 
+            $RoomCategories = [];
+            foreach($o->RoomCategories as $stdRoomCategory) {
+                $RoomCategories[] = $hotelRoomHydrator->hydrate($stdRoomCategory);
+            }
+            $newObj->setRoomCategories($RoomCategories);
+
+            $Images = [];
+            foreach($o->Images as $stdImage) {
+                $Images[] = $imagesHydrator->hydrate($stdImage);
+            }
+            $newObj->setImages($Images);
+
+            $DetailedDescriptions = [];
+            foreach($o->DetailedDescriptions as $stdDetailedDescription) {
+                $DetailedDescriptions[] = $detailedDescriptionHydrator->hydrate($stdDetailedDescription);
+            }
+            $newObj->setDetailedDescriptions($DetailedDescriptions);
+
+            $newObj->setHotelTheme($o->HotelTheme);
+            $newObj->setHotelAmenities($o->HotelAmenities);
+            $newObj->setRoomAmenities($o->RoomAmenities);
         } else {
             throw new \Exception("This is not treated.");
         }
