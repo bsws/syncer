@@ -4,8 +4,9 @@ namespace Comparer;
 use Interfaces\Comparable;
 
 use Comparer\RoomCategory as RoomCategoryComparer;
+use Comparer\Generic as GenericComparer;
 
-class Hotel implements Comparable
+class Hotel extends GenericComparer implements Comparable
 {
     public static function compare(/*provider object*/\Entity\Generic $instance1, \Entity\Generic $instance2)
     {

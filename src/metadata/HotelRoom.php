@@ -17,4 +17,16 @@ class HotelRoom implements \Interfaces\Metadata
             'hrc.description' => 'hrc_description'
         ];
     }
+
+    /**
+    * return an array of fields => method name array
+    **/
+    public static function getComparableFields()
+    {
+        return [
+            'name' => 'getName',
+            'description' => 'getDescription',
+            'Images' => 'getImages'
+        ];
+    }
 }

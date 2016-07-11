@@ -10,7 +10,7 @@ interface Comparable
     *
     * @return true | array of unequal fields
     **/
-    public static function compare(\Entity\Generic $instance1, \Entity\Generic $instance2);
+    public static function equalEntities(\Entity\Generic $instance1, \Entity\Generic $instance2);
 
     public static function compareCollections(array $col1, array $col2);
 }
