@@ -32,4 +32,28 @@ class Hotel implements \Interfaces\Metadata
         ];
     }
 
+    public static function comparableFields()
+    {
+        return [
+            'source',
+            'source_id',
+            'code',
+            'name',
+            'stars',
+            'description',
+            'address',
+            'zip',
+            'phone',
+            'fax',
+            'location',
+            'url',
+            'latitude',
+            'longitude',
+            'extra_class',
+            'use_individually',
+            'use_on_packages',
+            'property_type',
+        ];
+    }
+
 }

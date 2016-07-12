@@ -1,7 +1,7 @@
 <?php
 namespace Entity;
 
-class DetailedDescription
+class DetailedDescription extends Generic
 {
     protected $id;
     protected $providerId;
@@ -9,6 +9,11 @@ class DetailedDescription
     protected $label;
     protected $text;
     protected $index;
+
+    public function getIdentifier()
+    {
+        return $this->getHotelId()."_".$this->getLabel();
+    }
 
     public function getId()
     {

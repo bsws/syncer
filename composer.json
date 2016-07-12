@@ -17,7 +17,8 @@
             "Entity\\": "src/entity/",
             "Metadata\\": "src/metadata/",
             "Comparer\\": "src/comparer/",
-            "Config\\": "config/"
+            "Config\\": "config/",
+            "Util\\": "src/util/"
         }
     }
 }

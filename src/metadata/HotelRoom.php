@@ -21,7 +21,7 @@ class HotelRoom implements \Interfaces\Metadata
     /**
     * return an array of fields => method name array
     **/
-    public static function getComparableFields()
+    public static function comparableFields()
     {
         return [
             'name' => 'getName',

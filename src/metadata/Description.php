@@ -16,4 +16,9 @@ class Description implements \Interfaces\Metadata
             'hdd.desc_index' => 'hdd_desc_index'
         ];
     }
+
+    public static function comparableFields()
+    {
+        
+    }
 }

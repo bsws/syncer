@@ -4,16 +4,33 @@ namespace Comparer;
 use Interfaces\Comparable;
 
 use Comparer\RoomCategory as RoomCategoryComparer;
-use Comparer\Generic as GenericComparer;
+use Comparer\DetailedDescription as DetailedDescriptionComparer;
 
-class Hotel extends GenericComparer implements Comparable
+class Hotel extends Generic implements Comparable
 {
-    public static function compare(/*provider object*/\Entity\Generic $instance1, \Entity\Generic $instance2)
+
+    public static function compare(/*provider object*/\Entity\Generic $providerInstance, \Entity\Generic $dbInstance)
     {
+        //compare the hotel instances
+        $hotelDiff = self::equalEntities($providerInstance, $dbInstance);
+        echo '<pre>';
+        print_r($hotelDiff); 
+        echo '</pre>'; 
+        die;
+
         //compare the main methods
-        $unequalities = [];
         $equalsRoomCategories = true;
         $methods = get_class_methods($instance1);
+
+        $hotelFinalData = [
+            "hotel" => [],
+            "Rooms" => [],
+            "DetailedDescriptions" => [],
+            "Images" => [],
+            "HotelAmenities" => [],
+            "RoomAmenities" => []
+
+        ];
 
         foreach($methods as $m) {
             if(substr($m, 0, 3) == "get") {
@@ -28,28 +45,25 @@ class Hotel extends GenericComparer implements Comparable
                     $dbCol = $instance2->getRoomCategories();
 
                     $equalsRoomCategories = RoomCategoryComparer::compareCollections($providerCol, $dbCol);//$this->app['service.hotel_room']->equalsCollections($providerCol, $dbCol);
-                    ######################################
-                    echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
-                    echo '<pre>';
-                    print_r($equalsRoomCategories);
-                    echo '</pre>';
-                    die;
-                    ######################################
-                    if(!$equalsRoomCategories) $unequalities[] = "getRoomCategories";
+                    if(true !== $equalsRoomCategories) $hotelFinalData["Rooms"] = $equalsRoomCategories;
 
                     continue;
                 }
 
                 if($m == "getDetailedDescriptions") {
-                    $providerCol = $providerHotel->getDetailedDescriptions();
-                    $dbCol = $dbHotel->getDetailedDescriptions();
+                    $providerCollection = $instance1->getDetailedDescriptions();
+                    $dbCollection = $instance2->getDetailedDescriptions();
+                    $equalsDetailedDescriptions = DetailedDescriptionComparer::compareCollections($providerCollection, $dbCollection);
 
-                    $equalsCollections = $this->app['service.description']->equalsCollections($providerCol, $dbCol);
-                    if(!$equalsCollections) $unequalities[] = "getDetailedDescriptions";
+                    if(true !== $equalsDetailedDescriptions) $hotelFinalData["DetailedDescriptions"] = $equalsDetailedDescriptions;
 
                     continue;
-
+                echo '<pre>';   
+                print_r($hotelFinalData); 
+                echo '</pre>'; 
+                die;
                 }
+                
 
                 if(in_array( $m, ["getImages", "getHotelAmenities", "getRoomAmenities"])) {
                     continue;
@@ -62,11 +76,12 @@ class Hotel extends GenericComparer implements Comparable
             }
         }
 
-        return $unequalities;
+        return $hotelFinalData;
     }
 
-    public static function compareCollections(array $col1, array $col2)
+    public static function comparableFields()
     {
-
+        return \Metadata\Hotel::comparableFields();
     }
+
 }

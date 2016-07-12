@@ -3,5 +3,5 @@ namespace Entity;
 
 class Generic
 {
-
+    
 }
