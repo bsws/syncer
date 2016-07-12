@@ -156,34 +156,19 @@ class Hotel extends Generic
 
         //search for the object in DB
         $dbHotel = $this->getHotelFromDb($hotel->getProviderId(), $hotel->getIdAtProvider());
-        $unequalFields = HotelComparer::compare($hotel, $dbHotel);
-        ######################################
-        echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
-        echo '<pre>';
-        print_r($unequalFields);
-        echo '</pre>';
-        die;
-        ######################################
-        $unequalFields = $this->getUnequalFields($hotel, $dbHotel);
+        $hotelDiff = HotelComparer::compare($hotel, $dbHotel);
 
-        if(!empty($unequalFields)) {
-            if(in_array("getIdAtProvider", $unequalFields)) {
-                $hotel = $this->insertHotel($hotel);
-                echo "The hotel with id {$hotel->getId()} was inserted.\r\n";
-            } else {
-                foreach($unequalFields as $method) {
-                    if($method == "getRoomCategories") {
-                        $this->syncRoomCategories($dbHotel, $hotel->getRoomCategories());
-                    }
-
-                    if($method == "getDetailedDescriptions") {
-                        $this->syncDetailedDescriptionsForHotel($dbHotel, $hotel->getDetailedDescriptions());
-                    }
+        foreach ($hotelDiff as $key => $arr) {
+            if(!empty($arr)) {
+                if(!empty($arr["insert"])) {
+                    //perform an insertion
+                }
+                if(!empty($arr["update"])) {
+                    //perform an update
                 }
             }
-        } 
+        }
 
-        //insert the object
     }
 
     public function sync($hotelsArr, $providerId, $providerIdent)

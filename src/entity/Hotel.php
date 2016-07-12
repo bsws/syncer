@@ -411,4 +411,9 @@ class Hotel extends GenericModel implements Hotelable
 
         return $retArr;
     }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
 }

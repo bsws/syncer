@@ -3,6 +3,8 @@ namespace Interfaces;
 
 interface Hotelable
 {
+    public function getPkValue();
+
     public function getId();
     public function setId($id);
 

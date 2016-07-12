@@ -15,6 +15,11 @@ class Generic
     * $unequalFields when there are fields that must be updated.
     **/
     public static function equalEntities(\Entity\Generic $providerInstance, \Entity\Generic $dbInstance) {
+        
+        if(empty($dbInstance->getPkValue())) {
+            return -1;
+        }
+
         $comparableFields = static::comparableFields();
         $unequalFields = [];
         foreach ($comparableFields as $fieldName) {
