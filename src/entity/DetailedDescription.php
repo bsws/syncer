@@ -1,6 +1,8 @@
 <?php
 namespace Entity;
 
+use Metadata\Description as DetailedDescriptionMetadata;
+
 class DetailedDescription extends Generic
 {
     protected $id;
@@ -79,5 +81,39 @@ class DetailedDescription extends Generic
     {
         $this->index = $index;
         return $this;
+    }
+
+    public function toArray()
+    {
+
+        $retArr = [
+            'provider_id' => $this->getProviderId(),
+            'hotel_id' => $this->getHotelId(),
+            'label' => $this->getLabel(),
+            'text' => $this->getText(),
+            'desc_index' => $this->getIndex()
+        ];
+
+        if(!empty($this->getId())) {
+            $retArr['id'] = $this->getId();
+        }
+
+        return $retArr;
+    }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+        return DetailedDescriptionMetadata::$table;
     }
 }

@@ -6,7 +6,7 @@ use Config\Settings;
 use Service\Provider as ProviderService;
 use Service\Geography as GeographyService;
 use Service\Hotel as HotelService;
-use Service\HotelRoom as HotelRoom;
+use Service\RoomCategory as RoomCategoryService;
 use Service\DetailedDescription as DetailedDescription;
 
 $keys = Keys::provide();
@@ -49,7 +49,7 @@ $app['service.hotel'] = function($app){
     return new HotelService($app);
 };
 $app['service.hotel_room'] = function($app){
-    return new HotelRoom($app);
+    return new RoomCategoryService($app);
 };
 $app['service.description'] = function($app){
     return new DetailedDescription($app);

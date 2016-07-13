@@ -1,7 +1,7 @@
 <?php
 namespace Entity;
 
-class HotelTheme 
+class HotelTheme extends Generic
 {
 	protected $id;
 	protected $name;
@@ -26,5 +26,21 @@ class HotelTheme
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+
     }
 }

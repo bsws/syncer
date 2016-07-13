@@ -22,8 +22,12 @@ class Generic
 
         $comparableFields = static::comparableFields();
         $unequalFields = [];
+        echo '<pre>';
+        print_r($comparableFields); 
+        echo '</pre>'; 
         foreach ($comparableFields as $fieldName) {
             $methodName = self::buildMethodName($fieldName);
+            echo $methodName,"\r\n";
             $providerVal = call_user_method($methodName, $providerInstance);
             $dbVal = call_user_method($methodName, $dbInstance);
 
@@ -78,7 +82,7 @@ class Generic
             }
         }
 
-        return (empty($arrInserts) && $empty($arrUpdates)) ? true : [
+        return (empty($arrInserts) && empty($arrUpdates)) ? true : [
             "insert" => $arrInserts,
             "update" => $arrUpdates
         ];

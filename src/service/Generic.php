@@ -22,4 +22,24 @@ class Generic
     {
         return $this->dbal;
     }
+
+    public function insertObject(\Entity\Generic $objToInsert)
+    {
+        try {
+            $db = $this->getDb();
+            $db->insert($objToInsert->getTableName(), $objToInsert->toArray());
+            $lastInsertId = $db->lastInsertId();
+            $objToInsert->setPkValue($lastInsertId);
+
+            return $lastInsertId;
+        } catch(\Exception $Ex) {
+            $this->getLogger()->info($Ex->getMessage());
+        }
+
+    }
+
+    public function getLogger()
+    {
+        return $this->getSilexApplication()['logger'];
+    }
 }

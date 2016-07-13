@@ -1,7 +1,7 @@
 <?php
 namespace Entity;
 
-class Amenity
+class Amenity extends Generic
 {
 	protected $id;
 	protected $name;
@@ -38,5 +38,21 @@ class Amenity
     public function getObjectType()
     {
         return $this->objectType;
+    }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+
     }
 }

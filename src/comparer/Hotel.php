@@ -24,7 +24,7 @@ class Hotel extends Generic implements Comparable
         //compare the hotel instances
         $hotelDiff = self::equalEntities($providerInstance, $dbInstance);
         if(true !== $hotelDiff) {
-            $hotelFinalData["hotel"][(-1 === $hotelDiff) ? "insert" : "update"] = $providerInstance;
+            $hotelFinalData["hotel"][(-1 === $hotelDiff) ? "insert" : "update"][] = $providerInstance;
         }
 
         if(-1 === $hotelDiff) {

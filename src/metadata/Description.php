@@ -19,6 +19,10 @@ class Description implements \Interfaces\Metadata
 
     public static function comparableFields()
     {
-        
+        return [
+            "label",
+            "text",
+            "desc_index"
+        ];   
     }
 }

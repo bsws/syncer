@@ -3,7 +3,7 @@ namespace Entity;
 
 use Interfaces\Imageable;
 
-class Image implements Imageable
+class Image extends Generic implements Imageable
 {
 
     protected $id;
@@ -76,5 +76,21 @@ class Image implements Imageable
             'mime_type' => $this->getMimeType(),
             'name' => $this->getName()
         ];
+    }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+
     }
 }

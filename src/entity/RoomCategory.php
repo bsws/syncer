@@ -2,8 +2,9 @@
 namespace Entity;
 
 use Interfaces\RoomCategoryable;
+use Metadata\HotelRoom as HotelRoomMetadata;
 
-class RoomCategory implements RoomCategoryable
+class RoomCategory extends Generic implements RoomCategoryable
 {
     protected $id;
     protected $providerId;
@@ -94,7 +95,7 @@ class RoomCategory implements RoomCategoryable
     {
         $retArr = [
             'id' => $this->getId(),
-            'provider_id' => $this->getProviderId(),
+            // 'provider_id' => $this->getProviderId(),
             'id_at_provider' => $this->getIdAtProvider(),
             'hotel_id' => $this->getHotelId(),
             'name' => $this->getName(),
@@ -106,5 +107,31 @@ class RoomCategory implements RoomCategoryable
         }
 
         return $retArr;
+    }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+        return HotelRoomMetadata::$table;
+    }
+
+    public function getIdentifier()
+    {
+        return $this->getProviderId()."_".$this->getIdAtProvider();
+    }
+
+    public function comparableFields()
+    {
+        return HotelRoomMetadata::comparableFields();
     }
 }

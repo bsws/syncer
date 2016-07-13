@@ -78,39 +78,22 @@ class Hotel extends Generic
 
     public function insertHotel($objToInsert)
     {
-        $arrData = [
-            'provider_id' => $objToInsert->getProviderId(),
-            'id_at_provider' => $objToInsert->getIdAtProvider(),
-            'source' => $objToInsert->getSource(),
-            'source_id' => $objToInsert->getSourceId(),
-            'code' => $objToInsert->getCode(),
-            'name' => $objToInsert->getName(),
-            'stars' => $objToInsert->getStars(),
-            'description' => $objToInsert->getDescription(),
-            'address' => $objToInsert->getAddress(),
-            'zip' => $objToInsert->getZip(),
-            'phone' => $objToInsert->getPhone(),
-            'fax' => $objToInsert->getFax(),
-            'location' => $objToInsert->getLocation(),
-            'url' => $objToInsert->getUrl(),
-            'latitude' => $objToInsert->getLatitude(),
-            'longitude' => $objToInsert->getLongitude(),
-            'extra_class' => $objToInsert->getExtraClass(),
-            'use_individually' => $objToInsert->getUseIndividually(),
-            'use_on_packages' => $objToInsert->getUseOnPackages(),
-            'property_type' => $objToInsert->getPropertyType()
-        ];
+        echo "To insert.\r\n";
+        $this->insertObject($objToInsert);
+        echo "Inserted.\r\n";
+        //rooms
+        foreach ($objToInsert->getRoomCategories() as $roomCategory) {
+            $roomCategory->setProviderId($objToInsert->getProviderId());
+            $roomCategory->setHotelId($objToInsert->getId());
+            $this->getSilexApplication()['service.hotel_room']->insertRoomCategory($roomCategory);
+        }
 
-        $this->getDb()->insert('hotel', $arrData);
-        $insertId = $this->getDb()->lastInsertId();
-
-        $objToInsert->setId($insertId);
-
-        //insert the room categories too
-        $this->syncRoomCategories($objToInsert, $objToInsert->getRoomCategories());
-
-        //insert the detailed descriptions too
-        $this->syncDetailedDescriptionsForHotel($objToInsert, $objToInsert->getDetailedDescriptions());
+        //descriptions
+        foreach ($objToInsert->getDetailedDescriptions() as $description) {
+            $description->setProviderId($objToInsert->getProviderId());
+            $description->setHotelId($objToInsert->getId());
+            $this->getSilexApplication()['service.description']->insertDescription($description);
+        }
 
         $this->getLogger()->info("The hotel with id {$objToInsert->getId()} was inserted.");
 
@@ -162,6 +145,13 @@ class Hotel extends Generic
             if(!empty($arr)) {
                 if(!empty($arr["insert"])) {
                     //perform an insertion
+                    foreach ($arr["insert"] as $objToInsert) {
+                        if($objToInsert instanceof \Entity\Hotel) {
+                            $this->insertHotel($objToInsert);
+                            // die("\r\n=====The hotel was inserted."); 
+                        }
+                    }
+                    // die;
                 }
                 if(!empty($arr["update"])) {
                     //perform an update

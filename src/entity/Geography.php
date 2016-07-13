@@ -4,7 +4,7 @@ namespace Entity;
 
 use Interfaces\Geographyable;
 
-class Geography implements Geographyable
+class Geography extends Generic implements Geographyable
 {
 
     protected $id;
@@ -162,5 +162,21 @@ class Geography implements Geographyable
     public function getTreeLevel()
     {
         return $this->treeLevel;
+    }
+    
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+        
     }
 }

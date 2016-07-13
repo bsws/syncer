@@ -4,6 +4,7 @@ namespace Entity;
 
 use Interfaces\Hotelable;
 use Entity\Generic as GenericModel;
+use Metadata\Hotel as HotelMetadata;
 
 class Hotel extends GenericModel implements Hotelable
 {
@@ -415,5 +416,16 @@ class Hotel extends GenericModel implements Hotelable
     public function getPkValue()
     {
         return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+        return HotelMetadata::$table;
     }
 }
