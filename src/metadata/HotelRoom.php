@@ -24,9 +24,8 @@ class HotelRoom implements \Interfaces\Metadata
     public static function comparableFields()
     {
         return [
-            'name' => 'getName',
-            'description' => 'getDescription',
-            'Images' => 'getImages'
+            'name',
+            'description'
         ];
     }
 }

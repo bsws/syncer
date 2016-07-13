@@ -23,6 +23,6 @@ class Description implements \Interfaces\Metadata
             "label",
             "text",
             "desc_index"
-        ];   
+        ];
     }
 }

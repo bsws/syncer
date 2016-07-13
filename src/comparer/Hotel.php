@@ -9,7 +9,7 @@ use Comparer\DetailedDescription as DetailedDescriptionComparer;
 class Hotel extends Generic implements Comparable
 {
 
-    public static function compare(/*provider object*/\Entity\Generic $providerInstance, \Entity\Generic $dbInstance)
+    public static function compare(\Entity\Generic $providerInstance, \Entity\Generic $dbInstance)
     {
         $hotelFinalData = [
             "hotel" => [],
@@ -32,48 +32,27 @@ class Hotel extends Generic implements Comparable
         }
 
         //compare the main methods
-        $equalsRoomCategories = true;
-        $methods = get_class_methods($providerInstance);
+        $providerCollection = $providerInstance->getRoomCategories();
+        $dbCollection = $dbInstance->getRoomCategories();
+        ######################################
+        echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+        echo '<pre>';
+        print_r($dbInstance);
+        print_r($providerCollection);
+        print_r($dbCollection);
+        echo '</pre>';
+        die;
+        ######################################
 
-        foreach($methods as $m) {
-            if(substr($m, 0, 3) == "get") {
+        $equalsRoomCategories = RoomCategoryComparer::compareCollections($providerCollection, $dbCollection);//$this->app['service.hotel_room']->equalsCollections($providerCol, $dbCol);
+        if(true !== $equalsRoomCategories) $hotelFinalData["Rooms"] = $equalsRoomCategories;
 
-                //skip some methods for now
-                if($m == "getId") continue;
-                if($m == "getHotelTheme") continue;
+        $providerCollection = $providerInstance->getDetailedDescriptions();
+        $dbCollection = $dbInstance->getDetailedDescriptions();
+        $equalsDetailedDescriptions = DetailedDescriptionComparer::compareCollections($providerCollection, $dbCollection);
 
-                //room categories
-                if($m == "getRoomCategories") {
-                    $providerCollection = $providerInstance->getRoomCategories();
-                    $dbCollection = $dbInstance->getRoomCategories();
+        if(true !== $equalsDetailedDescriptions) $hotelFinalData["DetailedDescriptions"] = $equalsDetailedDescriptions;
 
-                    $equalsRoomCategories = RoomCategoryComparer::compareCollections($providerCollection, $dbCollection);//$this->app['service.hotel_room']->equalsCollections($providerCol, $dbCol);
-                    if(true !== $equalsRoomCategories) $hotelFinalData["Rooms"] = $equalsRoomCategories;
-
-                    continue;
-                }
-
-                if($m == "getDetailedDescriptions") {
-                    $providerCollection = $providerInstance->getDetailedDescriptions();
-                    $dbCollection = $dbInstance->getDetailedDescriptions();
-                    $equalsDetailedDescriptions = DetailedDescriptionComparer::compareCollections($providerCollection, $dbCollection);
-
-                    if(true !== $equalsDetailedDescriptions) $hotelFinalData["DetailedDescriptions"] = $equalsDetailedDescriptions;
-
-                    continue;
-                }
-                
-
-                if(in_array( $m, ["getImages", "getHotelAmenities", "getRoomAmenities"])) {
-                    continue;
-                } 
-
-                if($providerInstance->$m() != $dbInstance->$m()) {
-                    //echo $m,". ", $hotel1->$m(), " - ", $hotel2->$m(),"\r\n";
-                    $unequalities[] = $m;
-                }
-            }
-        }
 
         return $hotelFinalData;
     }

@@ -78,9 +78,8 @@ class Hotel extends Generic
 
     public function insertHotel($objToInsert)
     {
-        echo "To insert.\r\n";
         $this->insertObject($objToInsert);
-        echo "Inserted.\r\n";
+
         //rooms
         foreach ($objToInsert->getRoomCategories() as $roomCategory) {
             $roomCategory->setProviderId($objToInsert->getProviderId());
@@ -148,7 +147,7 @@ class Hotel extends Generic
                     foreach ($arr["insert"] as $objToInsert) {
                         if($objToInsert instanceof \Entity\Hotel) {
                             $this->insertHotel($objToInsert);
-                            // die("\r\n=====The hotel was inserted."); 
+                            print("\r\nThe hotel with id {$objToInsert->getPkValue()} was inserted."); 
                         }
                     }
                     // die;

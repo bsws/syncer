@@ -15,23 +15,20 @@ class Generic
     * $unequalFields when there are fields that must be updated.
     **/
     public static function equalEntities(\Entity\Generic $providerInstance, \Entity\Generic $dbInstance) {
-        
         if(empty($dbInstance->getPkValue())) {
             return -1;
         }
 
         $comparableFields = static::comparableFields();
         $unequalFields = [];
-        echo '<pre>';
-        print_r($comparableFields); 
-        echo '</pre>'; 
         foreach ($comparableFields as $fieldName) {
             $methodName = self::buildMethodName($fieldName);
-            echo $methodName,"\r\n";
             $providerVal = call_user_method($methodName, $providerInstance);
             $dbVal = call_user_method($methodName, $dbInstance);
 
-            if($providerVal !== $dbVal) {
+
+            if($providerVal != $dbVal) {
+                //echo $methodName,"|", $providerVal, "|", $dbVal ,"\r\n";
                 $unequalFields[$fieldName] = $providerVal;
             }
         }
