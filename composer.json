@@ -18,7 +18,8 @@
             "Metadata\\": "src/metadata/",
             "Comparer\\": "src/comparer/",
             "Config\\": "config/",
-            "Util\\": "src/util/"
+            "Util\\": "src/util/",
+            "Traits\\": "src/traits/"
         }
     }
 }

@@ -15,16 +15,6 @@ class Hotel extends Generic
     protected $providerData = null;
     protected $app = null;
 
-    public function setExtraParams($extraParams = [])
-    {
-        if(!empty($extraParams['providerData'])) {
-            $this->providerData = $extraParams['providerData'];
-        }
-        if(!empty($extraParams['app'])) {
-            $this->app = $extraParams['app'];
-        }
-    }
-
     public function getProviderData()
     {
         return $this->providerData;
@@ -162,8 +152,6 @@ class Hotel extends Generic
 
     public function sync($hotelsArr, $providerId, $providerIdent)
     {
-        $db = $this->getDb();
-
         try {
             foreach($hotelsArr as $data) {
                 $this->checkAndSync($data);

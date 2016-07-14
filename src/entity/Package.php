@@ -90,6 +90,25 @@ class Package extends GenericEntity implements Packageable
      */
     private $currencyId;
 
+    private $DepartureDates;
+
+    private $DeparturePoints;
+
+    private $PriceSets;
+
+    private $DetailedDescriptions;
+
+    private $TalePrice;
+
+    public function __construct()
+    {
+        $this->DepartureDates = [];
+        $this->DeparturePoints = [];
+        $this->PriceSets = [];
+        $this->DetailedDescriptions = [];
+        $this->TalePrice = [];
+    }
+
 
     /**
      * Get id
@@ -459,6 +478,50 @@ class Package extends GenericEntity implements Packageable
     public function getCurrencyId()
     {
         return $this->currencyId;
+    }
+
+    public function toArray($deep = false)
+    {
+        $retArr = [
+            'id'  => $this->getId(), 
+            'provider_id' => $this->getProviderId(), 
+            'id_at_provider'  => $this->getIdAtProvider(), 
+            'name'    => $this->getName(), 
+            'is_tour' => $this->getIsTour(), 
+            'is_bus'  => $this->getIsBus(), 
+            'is_flight'   => $this->getIsFlight(), 
+            'duration'    => $this->getDuration(), 
+            'outbound_transport_duration' => $this->getOutboundTransportDuration(), 
+            'description' => $this->getDescription(),
+            'destination_id'  => $this->getDestinationId(), 
+            'included_services'   => $this->getIncludedServices(), 
+            'not_included_services'   => $this->getNotIncludedServices(), 
+            'hotel_id'    => $this->getHotelId(), 
+            'hotel_source_id' => $this->getHotelSourceId(), 
+            'currency_id' => $this->getCurrencyId()
+        ];
+
+        if($deep) {
+            //to implement this later
+        }
+
+        return $retArr;
+    }
+
+    public function getPkValue()
+    {
+        return $this->getId();
+    }
+
+    public function setPkValue($val)
+    {
+        $this->setId($val);
+        return $this;
+    }
+
+    public function getTableName()
+    {
+        return PackageMetadata::$table;
     }
 }
 

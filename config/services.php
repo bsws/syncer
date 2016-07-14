@@ -8,6 +8,7 @@ use Service\Geography as GeographyService;
 use Service\Hotel as HotelService;
 use Service\RoomCategory as RoomCategoryService;
 use Service\DetailedDescription as DetailedDescription;
+use Service\Package as PackageService;
 
 $keys = Keys::provide();
 
@@ -53,4 +54,7 @@ $app['service.hotel_room'] = function($app){
 };
 $app['service.description'] = function($app){
     return new DetailedDescription($app);
+};
+$app['service.package'] = function($app){
+    return new PackageService($app);
 };

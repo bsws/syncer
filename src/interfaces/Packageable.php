@@ -1,7 +1,7 @@
 <?php
 namespace Interfaces;
 
-interface Packageable extends EntityGeneric
+interface Packageable extends GenericEntity
 {
 
 }

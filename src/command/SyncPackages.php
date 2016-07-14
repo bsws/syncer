@@ -10,14 +10,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class SyncHotels extends \Knp\Command\Command 
+class SyncPackages extends \Knp\Command\Command 
 {
     use \Traits\Command;
 
     protected function configure()
     {
-        $this->setName("sync:hotels")
-            ->setDescription("Syncronizes the hotels for a given provider.")
+        $this->setName("sync:packages")
+            ->setDescription("Syncronizes the packages for a given provider.")
             ->addArgument(
                 "provider",
                 InputArgument::REQUIRED,
@@ -28,23 +28,23 @@ class SyncHotels extends \Knp\Command\Command
     protected function execute($input, $output)
     {
         $app = $this->getSilexApplication();
-        $service = $app['service.hotel'];
+        $service = $app['service.package'];
 
         $providerIdent = $input->getArgument("provider");
         $providerData = $this->getProviderData($input);
 
         $logger = $app["monolog"];
 
-        $logger->notice("Start hotels syncronization for ".$providerIdent);
+        $logger->notice("Start packages syncronization for ".$providerIdent);
 
         if(empty($providerData)) {
             $output->writeln("<error>Invalid provider identificator provided.</error>");
             return;
         } else {
             $service->setExtraParams(["providerData" => $providerData, 'app' => $app]);
-            $hotelsArr = json_decode(file_get_contents($app['settings']['hotelsDownloadDir'].$providerIdent."/hotels.json"));
-            $o = $service->translateFromStdObjects($hotelsArr, $providerData['id'], $providerIdent);
-            $synced = $service->sync($o, $providerData['id'], $providerIdent);
+            $packagesArr = json_decode(file_get_contents($app['settings']['packagesDownloadDir'].$providerIdent."/packages.json"));
+
+            $syncData = $service->sync($packagesArr, $providerData['id'], $providerIdent);
             echo "\r\nSynced: ",$synced,"\r\n";
             die;
         }

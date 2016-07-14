@@ -6,6 +6,7 @@ class Generic
 {
     protected $app = null;
     protected $dbal = null;
+    protected $providerData = null;
 
     public function __construct($app)
     {
@@ -21,6 +22,13 @@ class Generic
     public function getDb()
     {
         return $this->dbal;
+    }
+
+    public function setExtraParams($extraParams = [])
+    {
+        if(!empty($extraParams['providerData'])) {
+            $this->providerData = $extraParams['providerData'];
+        }
     }
 
     public function insertObject(\Entity\Generic $objToInsert)
@@ -41,5 +49,18 @@ class Generic
     public function getLogger()
     {
         return $this->getSilexApplication()['logger'];
+    }
+
+    public function translateFromStdObjects(array $objsToTranslate, $providerId, $providerIdent)
+    {
+        $retArr = [];
+        if(is_array($objsToTranslate) && count($objsToTranslate) > 0) 
+        {
+            foreach($objsToTranslate as $o) {
+                $retArr[] = $this->translateFromStdObject($o, $providerId, $providerIdent);
+            }
+        }
+
+        return $retArr;
     }
 }
