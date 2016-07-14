@@ -14,6 +14,11 @@ class Generic
         $this->dbal = $app['db'];
     }
 
+    public function getProviderData()
+    {
+        return $this->providerData;
+    }
+
     public function getSilexApplication()
     {
         return $this->app;

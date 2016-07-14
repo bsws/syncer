@@ -110,6 +110,11 @@ class Package extends GenericEntity implements Packageable
     }
 
 
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
     /**
      * Get id
      *
@@ -480,6 +485,61 @@ class Package extends GenericEntity implements Packageable
         return $this->currencyId;
     }
 
+    public function setDepartureDates($DepartureDates) 
+    {
+        $this->DepartureDates = $DepartureDates;
+        return $this;
+    }
+
+    public function getDepartureDates() 
+    {
+        return $this->DepartureDates;
+    }
+
+    public function setDeparturePoints($DeparturePoints) 
+    {
+        $this->DeparturePoints = $DeparturePoints;
+        return $this;
+    }
+
+    public function getDeparturePoints() 
+    {
+        return $this->DeparturePoints;
+    }
+
+    public function setPriceSets($PriceSets) 
+    {
+        $this->PriceSets = $PriceSets;
+        return $this;
+    }
+
+    public function getPriceSets() 
+    {
+        return $this->PriceSets;
+    }
+
+    public function setDetailedDescriptions($DetailedDescriptions) 
+    {
+        $this->DetailedDescriptions = $DetailedDescriptions;
+        return $this;
+    }
+
+    public function getDetailedDescriptions() 
+    {
+        return $this->DetailedDescriptions;
+    }
+
+    public function setTalePrice($TalePrice) 
+    {
+        $this->TalePrice = $TalePrice;
+        return $this;
+    }
+
+    public function getTalePrice() 
+    {
+        return $this->TalePrice;
+    }
+
     public function toArray($deep = false)
     {
         $retArr = [
@@ -497,12 +557,16 @@ class Package extends GenericEntity implements Packageable
             'included_services'   => $this->getIncludedServices(), 
             'not_included_services'   => $this->getNotIncludedServices(), 
             'hotel_id'    => $this->getHotelId(), 
-            'hotel_source_id' => $this->getHotelSourceId(), 
-            'currency_id' => $this->getCurrencyId()
+            'hotel_source_id' => $this->getHotelSourceId() 
         ];
 
         if($deep) {
             //to implement this later
+            $retArr['DepartureDates'] = [];
+            $retArr['DeparturePoints'] = [];
+            $retArr['PriceSets'] = [];
+            $retArr['DetailedDescriptions'] = [];
+            $retArr['TalePrice'] = [];
         }
 
         return $retArr;

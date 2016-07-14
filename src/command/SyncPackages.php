@@ -41,11 +41,11 @@ class SyncPackages extends \Knp\Command\Command
             $output->writeln("<error>Invalid provider identificator provided.</error>");
             return;
         } else {
-            $service->setExtraParams(["providerData" => $providerData, 'app' => $app]);
+            $service->setExtraParams(["providerData" => $providerData]);
             $packagesArr = json_decode(file_get_contents($app['settings']['packagesDownloadDir'].$providerIdent."/packages.json"));
 
-            $syncData = $service->sync($packagesArr, $providerData['id'], $providerIdent);
-            echo "\r\nSynced: ",$synced,"\r\n";
+            $syncData = $service->sync($packagesArr);
+            echo "\r\nThe packages sync job has been ended.\r\n";
             die;
         }
 

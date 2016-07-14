@@ -24,9 +24,9 @@ class PackageChristiantour implements Hydrators
         //use a factory in the future
         $newObj = new PackageEntity();
         $newObj->setProviderId($this->getProviderId());
+        $detailedDescriptionHydrator = DetailedDescription::getInstance();
 
         if(is_array($inData)) {
-            die("DB Data");
 
             $hydrated = [
                 "main" => false, 
@@ -40,41 +40,41 @@ class PackageChristiantour implements Hydrators
             foreach($inData as $o) {
                 if(!$hydrated["main"]) {
                     //main object
-                    $newObj->setId($o['h_id']);
-                    $newObj->setIdAtProvider($o['h_id_at_provider']);
-                    $newObj->setSource($o['h_source']);
-                    $newObj->setSourceId($o['h_source_id']);
-                    $newObj->setCode($o['h_code']);
-                    $newObj->setName($o['h_name']);
-                    $newObj->setStars($o['h_stars']);
-                    $newObj->setDescription($o['h_description']);
-                    $newObj->setAddress($o['h_address']);
-                    $newObj->setZip($o['h_zip']);
-                    $newObj->setPhone($o['h_phone']);
-                    $newObj->setFax($o['h_fax']);
-                    $newObj->setLocation($o['h_location']);
-                    $newObj->setUrl($o['h_url']);
-                    $newObj->setLatitude($o['h_latitude']);
-                    $newObj->setLongitude($o['h_longitude']);
-                    $newObj->setExtraClass($o['h_extra_class']);
-                    $newObj->setUseIndividually($o['h_use_individually']);
-                    $newObj->setUseOnPackages($o['h_use_on_packages']);
-                    $newObj->setPropertyType($o['h_property_type']);
+                    //$newObj->setId($o['h_id']);
+                    //$newObj->setIdAtProvider($o['h_id_at_provider']);
+                    //$newObj->setSource($o['h_source']);
+                    //$newObj->setSourceId($o['h_source_id']);
+                    //$newObj->setCode($o['h_code']);
+                    //$newObj->setName($o['h_name']);
+                    //$newObj->setStars($o['h_stars']);
+                    //$newObj->setDescription($o['h_description']);
+                    //$newObj->setAddress($o['h_address']);
+                    //$newObj->setZip($o['h_zip']);
+                    //$newObj->setPhone($o['h_phone']);
+                    //$newObj->setFax($o['h_fax']);
+                    //$newObj->setLocation($o['h_location']);
+                    //$newObj->setUrl($o['h_url']);
+                    //$newObj->setLatitude($o['h_latitude']);
+                    //$newObj->setLongitude($o['h_longitude']);
+                    //$newObj->setExtraClass($o['h_extra_class']);
+                    //$newObj->setUseIndividually($o['h_use_individually']);
+                    //$newObj->setUseOnPackages($o['h_use_on_packages']);
+                    //$newObj->setPropertyType($o['h_property_type']);
 
                     $hydrated["main"] = true;
                 }
 
-                if(!empty($o["hrc_id"]) && !in_array($o["hrc_id"], $hydrated["rooms"])) {
-                    $hotelRoom = $hotelRoomHydrator->hydrate($o);
-                    $newObj->addRoomCategory($hotelRoom);
-                    $hydrated["rooms"][] = $o["hrc_id"];
-                }
+                //if(!empty($o["hrc_id"]) && !in_array($o["hrc_id"], $hydrated["rooms"])) {
+                //    $hotelRoom = $hotelRoomHydrator->hydrate($o);
+                //    $newObj->addRoomCategory($hotelRoom);
+                //    $hydrated["rooms"][] = $o["hrc_id"];
+                //}
 
-                if(!empty($o["dd_id"]) && !in_array($o["dd_id"], $hydrated["detailed_descriptions"])) {
-                    $detailedDescription = $detailedDescriptionHydrator->hydrate($o);
-                    $newObj->addDetailedDescription($detailedDescription);
-                    $hydrated["detailed_descriptions"][] = $o["dd_id"];
-                }
+                //if(!empty($o["dd_id"]) && !in_array($o["dd_id"], $hydrated["detailed_descriptions"])) {
+                //    $detailedDescription = $detailedDescriptionHydrator->hydrate($o);
+                //    $newObj->addDetailedDescription($detailedDescription);
+                //    $hydrated["detailed_descriptions"][] = $o["dd_id"];
+                //}
             }
 
             //aux
@@ -87,40 +87,42 @@ class PackageChristiantour implements Hydrators
             //$newObj->setRoomAmenities($o['']);
 
         } elseif($inData instanceof \stdClass) {
-            die("hydrate from object");
+
             $o = $inData;
+            $newObj->setProviderId($this->getProviderId());
             $newObj->setIdAtProvider($o->Id);
-            $newObj->setSource($o->Source);
-            $newObj->setSourceId($o->SourceId);
-            $newObj->setCode($o->Code);
             $newObj->setName($o->Name);
-            $newObj->setStars($o->Class);
+            $newObj->setIsTour($o->IsTour);
+            $newObj->setIsBus($o->IsBus);
+            $newObj->setIsFlight($o->IsFlight);
+            $newObj->setDuration($o->Duration);
+            $newObj->setOutboundTransportDuration($o->OutboundTransportDuration);
             $newObj->setDescription($o->Description);
-            $newObj->setAddress($o->Address);
-            $newObj->setZip($o->ZIP);
-            $newObj->setPhone($o->Phone);
-            $newObj->setFax($o->Fax);
-            $newObj->setLocation($o->Location);
-            $newObj->setUrl($o->URL);
-            $newObj->setLatitude($o->Latitude);
-            $newObj->setLongitude($o->Longitude);
-            $newObj->setExtraClass($o->ExtraClass);
-            $newObj->setUseIndividually($o->UseIndividually);
-            $newObj->setUseOnPackages($o->UseOnPackages);
-            $newObj->setPropertyType($o->PropertyType);
+            $newObj->setDestinationId($o->Destination);
+            $newObj->setIncludedServices($o->IncludedServices);
+            $newObj->setNotIncludedServices($o->NotIncludedServices);
+            $newObj->setHotelId($o->Hotel);
+            $newObj->setHotelSourceId($o->HotelSource);
+            $newObj->setCurrencyId($o->Currency);
 
             //relations 
-            $RoomCategories = [];
-            foreach($o->RoomCategories as $stdRoomCategory) {
-                $RoomCategories[] = $hotelRoomHydrator->hydrate($stdRoomCategory);
+            $DepartureDates= [];
+            foreach($o->DepartureDates as $depDate) {
+                $DepartureDates[] = $depDate;
             }
-            $newObj->setRoomCategories($RoomCategories);
+            $newObj->setDepartureDates($DepartureDates);
 
-            $Images = [];
-            foreach($o->Images as $stdImage) {
-                $Images[] = $imagesHydrator->hydrate($stdImage);
+            $DeparturePoints= [];
+            foreach($o->DeparturePoints as $depPoint) {
+                $DeparturePoints[] = $depPoint;
             }
-            $newObj->setImages($Images);
+            $newObj->setDeparturePoints($DeparturePoints);
+
+            //$PriceSets = [];
+            //foreach($o->PriceSets as $stdPriceSet) {
+            //    $PriceSets[] = $priceSetsHydrator->hydrate($stdPriceSet);
+            //}
+            //$newObj->setPriceSets($PriceSets);
 
             $DetailedDescriptions = [];
             foreach($o->DetailedDescriptions as $stdDetailedDescription) {
@@ -128,9 +130,7 @@ class PackageChristiantour implements Hydrators
             }
             $newObj->setDetailedDescriptions($DetailedDescriptions);
 
-            $newObj->setHotelTheme($o->HotelTheme);
-            $newObj->setHotelAmenities($o->HotelAmenities);
-            $newObj->setRoomAmenities($o->RoomAmenities);
+            //$newObj->setFareType($o->RoomAmenities);
         } else {
             throw new \Exception("This is not treated.");
         }
