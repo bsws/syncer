@@ -44,7 +44,7 @@ class Hotel extends Generic implements Comparable
         die;
         ######################################
 
-        $equalsRoomCategories = RoomCategoryComparer::compareCollections($providerCollection, $dbCollection);//$this->app['service.hotel_room']->equalsCollections($providerCol, $dbCol);
+        $equalsRoomCategories = RoomCategoryComparer::compareCollections($providerCollection, $dbCollection);
         if(true !== $equalsRoomCategories) $hotelFinalData["Rooms"] = $equalsRoomCategories;
 
         $providerCollection = $providerInstance->getDetailedDescriptions();

@@ -118,11 +118,11 @@ class PackageChristiantour implements Hydrators
             }
             $newObj->setDeparturePoints($DeparturePoints);
 
-            //$PriceSets = [];
-            //foreach($o->PriceSets as $stdPriceSet) {
-            //    $PriceSets[] = $priceSetsHydrator->hydrate($stdPriceSet);
-            //}
-            //$newObj->setPriceSets($PriceSets);
+            $PriceSets = [];
+            foreach($o->PriceSets as $stdPriceSet) {
+                $PriceSets[] = $priceSetsHydrator->hydrate($stdPriceSet);
+            }
+            $newObj->setPriceSets($PriceSets);
 
             $DetailedDescriptions = [];
             foreach($o->DetailedDescriptions as $stdDetailedDescription) {

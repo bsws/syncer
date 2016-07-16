@@ -3,7 +3,7 @@ namespace Service;
 
 use Entity\Package as PackageEntity;
 use Hydrator\Package as PackageHydrator;
-use Metadata\Package as PackageMetadata;
+use \Metadata\Package as PackageMetadata;
 use Comparer\Package as PackageComparer;
 
 class Package extends Generic

@@ -20,6 +20,4 @@ interface RoomCategoryable
 
     public function setImages($Images);
     public function getImages();
-
-    public function toArray();
 }
