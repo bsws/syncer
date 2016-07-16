@@ -18,6 +18,16 @@ class Package extends Generic
 
         $objDiff = parent::equalEntities($providerInstance, $dbInstance);
 
+
+        if(true !== $objDiff) {
+            $objFinalData["package"][(-1 === $objDiff) ? "insert" : "update"][] = $providerInstance;
+        }
+
+        if(-1 === $objDiff) {
+            return -1;
+        }
+
+        die('Check status');
         //price sets
         $priceSetsDiff = PriceSetComparer::compareCollections($providerInstance->getPriceSets(), $dbInstance->getPriceSets());
         if(!empty($providerInstance->getPriceSets())) {
@@ -28,14 +38,6 @@ class Package extends Generic
             echo '</pre>';
             die;
             ######################################
-        }
-
-        if(true !== $objDiff) {
-            $objFinalData["hotel"][(-1 === $objDiff) ? "insert" : "update"][] = $providerInstance;
-        }
-
-        if(-1 === $objDiff) {
-            return $objFinalData;
         }
 
         //compare the main methods

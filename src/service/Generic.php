@@ -47,6 +47,7 @@ class Generic
             return $lastInsertId;
         } catch(\Exception $Ex) {
             $this->getLogger()->info($Ex->getMessage());
+            echo $Ex->getMessage();
         }
 
     }

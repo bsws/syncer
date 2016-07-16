@@ -7,6 +7,7 @@ use Entity\Package as PackageEntity;
 class PackageChristiantour implements Hydrators
 {
     protected $providerId;
+    const PROVIDER_IDENT = "christiantour";
 
     public function __construct($providerId)
     {
@@ -25,6 +26,7 @@ class PackageChristiantour implements Hydrators
         $newObj = new PackageEntity();
         $newObj->setProviderId($this->getProviderId());
         $detailedDescriptionHydrator = DetailedDescription::getInstance();
+        $priceSetsHydrator = PriceSet::getInstance($this->getProviderId(), self::PROVIDER_IDENT);
 
         if(is_array($inData)) {
 

@@ -42,14 +42,13 @@ class Package extends Generic
 
         //compare
         $packageDiff = PackageComparer::equalEntities($providerEntity, $dbEntity);
-
         if(true !== $packageDiff) {
             if(-1 === $packageDiff) {
-                $this->insertObject($providerEntity);
+                $this->insertPackage($providerEntity);
                 $this->getLogger()->info("The package {$providerEntity->getId()}. - \"{$providerEntity->getName()}\" was inserted.");
                 echo "The package {$providerEntity->getId()}. - \"{$providerEntity->getName()}\" was inserted.\r\n";
             } else {
-                die("@TODO - To be imlemented.");
+                die("@TODO - To be imlemented(".__FILE__.", ".__LINE__.")");
             }
         }
 
@@ -117,6 +116,27 @@ class Package extends Generic
         ";
 
         return $q;
+    }
+
+
+
+    //insert package method
+    protected function insertPackage(\Entity\Package $package)
+    {
+        $this->insertObject($package);
+
+        //insert price sets
+        $priceSets = $package->getPriceSets();
+        if(!empty($priceSets)) {
+
+            foreach($priceSets as $ps) {
+                if(empty($ps->getPackageId())) {
+                    $ps->setPackageId($package->getId());
+                }
+
+                $this->insertObject($ps);
+            }
+        }
     }
 
 }

@@ -10,7 +10,7 @@ class PriceSetChristiantour implements Hydrators
         //return new hotel room object
 
         //use a factory in the future
-        $newObj = new PriceSet();
+        $newObj = new PriceSetEntity();
 
         if(is_array($o)) {
             if(!empty($o['ps_id'])) {
