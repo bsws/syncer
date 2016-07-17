@@ -91,18 +91,16 @@ class Package extends GenericEntity implements Packageable
     private $currencyId;
 
     private $DepartureDates;
-
+    private $DepartureDatesIds;
     private $DeparturePoints;
-
     private $PriceSets;
-
     private $DetailedDescriptions;
-
     private $TalePrice;
 
     public function __construct()
     {
         $this->DepartureDates = [];
+        $this->DepartureDatesIds = [];
         $this->DeparturePoints = [];
         $this->PriceSets = [];
         $this->DetailedDescriptions = [];
@@ -494,6 +492,23 @@ class Package extends GenericEntity implements Packageable
     public function getDepartureDates() 
     {
         return $this->DepartureDates;
+    }
+
+    public function setDepartureDatesIds($DepartureDatesIds) 
+    {
+        $this->DepartureDatesIds = $DepartureDatesIds;
+        return $this;
+    }
+
+    public function getDepartureDatesIds() 
+    {
+        return $this->DepartureDatesIds;
+    }
+
+    public function addDepartureDateId($dateId) 
+    {
+        $this->DepartureDatesIds[] = $dateId;
+        return $this;
     }
 
     public function setDeparturePoints($DeparturePoints) 

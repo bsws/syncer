@@ -2,8 +2,10 @@
 namespace Service;
 
 use Entity\Package as PackageEntity;
+use Entity\PackageDepartureDate as PackageDepartureDateEntity;
 use Hydrator\Package as PackageHydrator;
-use \Metadata\Package as PackageMetadata;
+use Metadata\Package as PackageMetadata;
+use Metadata\PackageDepartureDate as PackageDepartureDateMetadata;
 use Comparer\Package as PackageComparer;
 
 class Package extends Generic
@@ -14,7 +16,8 @@ class Package extends Generic
     {
         if(empty($this->hydrator)) {
             $providerData = $this->getProviderData();
-            $this->hydrator = PackageHydrator::getInstance($providerData['id'], $providerData['ident']);
+            $depService = $this->getSilexApplication()["service.departure_date"];
+            $this->hydrator = PackageHydrator::getInstance($providerData['id'], $providerData['ident'], $depService);
         }
 
         return $this->hydrator;
@@ -37,8 +40,8 @@ class Package extends Generic
     protected function checkAndSync($packageConfig)
     {
         $depService = $this->getSilexApplication()["service.departure_date"];
-        $depDateId = $depService->handleDepartureDate("2026-01-01");
-        die($depDateId);
+        //$depDateId = $depService->handleDepartureDate("2026-01-01");
+        //die($depDateId);
         $providerData = $this->getProviderData();
         $providerEntity = $this->translateFromStdObject($packageConfig);
         $dbEntity = $this->getPackageFromDb($providerData['id'], $providerEntity->getIdAtProvider());
@@ -142,6 +145,24 @@ class Package extends Generic
                 echo "The price set with id #{$ps->getId()}. - was inserted.\r\n";
             }
         }
+
+        if(!empty($package->getDepartureDatesIds())) {
+            $this->deleteDepartureDateIds($package);
+            foreach($package->getDepartureDatesIds() as $departureDateId) {
+                $depDateId = new PackageDepartureDateEntity();
+                $depDateId->setPackageId($package->getId());
+                $depDateId->setDepartureDateId($departureDateId);
+                $this->insertObject($depDateId);
+            }
+        }
+    }
+
+    protected function deleteDepartureDateIds($Package)
+    {
+        if(!empty($Package->getId())) {
+            return $this->getDb()->delete(PackageDepartureDateMetadata::$table, ["package_id" => $Package->getId()]);
+        } 
+        return null;
     }
 
 }

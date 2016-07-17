@@ -41,13 +41,32 @@ class Generic
         try {
             $db = $this->getDb();
             $db->insert($objToInsert->getTableName(), $objToInsert->toArray());
-            $lastInsertId = $db->lastInsertId();
-            $objToInsert->setPkValue($lastInsertId);
 
-            return $lastInsertId;
+            //if(strpos(get_class($objToInsert), "PackageDepartureDate")) {
+            //    var_dump($objToInsert->disablePK);
+            //    var_dump($objToInsert);
+            //    die;
+            //}
+            if(empty($objToInsert->disablePK) || $objToInsert->disablePK !== true) {
+                $lastInsertId = $db->lastInsertId();
+                $objToInsert->setPkValue($lastInsertId);
+                return $lastInsertId;
+            } else {
+                return null;
+            }
+
         } catch(\Exception $Ex) {
-            $this->getLogger()->info($Ex->getMessage());
-            echo $Ex->getMessage();
+            switch(get_class($Ex)) {
+                case 'Doctrine\DBAL\DBALException':
+                    echo "================";
+                    echo $Ex->getMessage();
+                    echo "================";
+                break;
+                default:
+                    $this->getLogger()->info($Ex->getMessage());
+                    echo $Ex->getMessage();
+                break;
+            }
         }
 
     }

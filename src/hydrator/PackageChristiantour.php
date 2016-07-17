@@ -7,11 +7,20 @@ use Entity\Package as PackageEntity;
 class PackageChristiantour implements Hydrators
 {
     protected $providerId;
+    protected $depService = null;
     const PROVIDER_IDENT = "christiantour";
 
-    public function __construct($providerId)
+    public function __construct($providerId, $depService = null)
     {
         $this->providerId = $providerId;
+        if(!is_null($depService)) {
+            $this->depService = $depService;
+        }
+    }
+
+    protected function getDepService()
+    {
+        return $this->depService;
     }
 
     public function getProviderId()
@@ -113,6 +122,10 @@ class PackageChristiantour implements Hydrators
                 $DepartureDates[] = $depDate;
             }
             $newObj->setDepartureDates($DepartureDates);
+
+            foreach($DepartureDates as $date) {
+                $newObj->addDepartureDateId( $this->getDepService()->handleDepartureDate($date) );
+            }
 
             $DeparturePoints= [];
             foreach($o->DeparturePoints as $depPoint) {
