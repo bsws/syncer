@@ -1,10 +1,10 @@
 <?php
 namespace Hydrator;
 
-class Departure
+class DepartureDate
 {
     public function getInstance()
     {
-        return new DepartureGeneric();
+        return new DepartureDateGeneric();
     }
 }

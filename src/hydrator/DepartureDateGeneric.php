@@ -2,15 +2,15 @@
 namespace Hydrator;
 
 use Interfaces\Hydrators;
-use Entity\Departure;
+use Entity\DepartureDate as DepartureDateEntity;
 
-class DepartureGeneric implements Hydrators
+class DepartureDateGeneric implements Hydrators
 {
     public function hydrate($o/* source */) {
         //return new hotel room object
 
         //use a factory in the future
-        $newObj = new Departure();
+        $newObj = new DepartureDateEntity();
 
         if(is_array($o)) {
             if(!empty($o['dep_id'])) {

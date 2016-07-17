@@ -1,9 +1,9 @@
 <?php
 namespace Metadata;
 
-class Departure implements \Interfaces\Metadata
+class DepartureDate implements \Interfaces\Metadata
 {
-    public static $table = 'departure';
+    public static $table = 'departure_date';
 
     public static function dbColumnsAliases()
     {

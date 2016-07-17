@@ -9,6 +9,7 @@ use Service\Hotel as HotelService;
 use Service\RoomCategory as RoomCategoryService;
 use Service\DetailedDescription as DetailedDescription;
 use Service\Package as PackageService;
+use Service\DepartureDate as DepartureDateService;
 
 $keys = Keys::provide();
 
@@ -57,4 +58,7 @@ $app['service.description'] = function($app){
 };
 $app['service.package'] = function($app){
     return new PackageService($app);
+};
+$app['service.departure_date'] = function($app){
+    return new DepartureDateService($app);
 };

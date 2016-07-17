@@ -36,6 +36,9 @@ class Package extends Generic
 
     protected function checkAndSync($packageConfig)
     {
+        $depService = $this->getSilexApplication()["service.departure_date"];
+        $depDateId = $depService->handleDepartureDate("2026-01-01");
+        die($depDateId);
         $providerData = $this->getProviderData();
         $providerEntity = $this->translateFromStdObject($packageConfig);
         $dbEntity = $this->getPackageFromDb($providerData['id'], $providerEntity->getIdAtProvider());
@@ -135,6 +138,8 @@ class Package extends Generic
                 }
 
                 $this->insertObject($ps);
+                $this->getLogger()->info("The price set with id #{$ps->getId()}. - was inserted.");
+                echo "The price set with id #{$ps->getId()}. - was inserted.\r\n";
             }
         }
     }

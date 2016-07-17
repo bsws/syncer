@@ -2,9 +2,9 @@
 namespace Entity;
 
 use Interfaces\GenericEntity;
-use Metadata\Departure as DepartureMetadata;
+use Metadata\DepartureDate as DepartureDateMetadata;
 
-class Departure extends Generic implements GenericEntity
+class DepartureDate extends Generic implements GenericEntity
 {
 	protected $id;
 	protected $at;
@@ -31,7 +31,7 @@ class Departure extends Generic implements GenericEntity
         return $this->at;
     }
 
-    public function toArray()
+    public function toArray($depp = false)
     {
         return [
             'id' => $this->getId(),
@@ -52,6 +52,6 @@ class Departure extends Generic implements GenericEntity
 
     public function getTableName()
     {
-        return DepartureMetadata::$table;
+        return DepartureDateMetadata::$table;
     }
 }
