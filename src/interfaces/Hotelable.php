@@ -1,7 +1,7 @@
 <?php
 namespace Interfaces;
 
-interface Hotelable extends EntityGeneric
+interface Hotelable extends GenericEntity
 {
     public function getId();
     public function setId($id);
