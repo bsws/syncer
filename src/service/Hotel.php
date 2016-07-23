@@ -15,6 +15,9 @@ class Hotel extends Generic
     protected $providerData = null;
     protected $app = null;
 
+    //id_at_provider -> local id
+    protected $hotelsMap = [];
+
     public function getProviderData()
     {
         return $this->providerData;
@@ -278,5 +281,19 @@ class Hotel extends Generic
         return $this->app['service.description']->syncDetailedDescriptionsForHotel($hotelObj, $providerDetailedDescriptions);
     }
 
+    public function buildHotelMap()
+    {
+        $dbHotels = $this->getDbHotels($this->getProviderData()['id']);
+        foreach($dbHotels as $hotel) {
+            if(empty($this->hotelsMap[$hotel['id_at_provider']])) {
+                $this->hotelsMap[$hotel['id_at_provider']] = $hotel['id'];
+            }
+        }
+    }
+
+    public function getHotelsMap()
+    {
+        return $this->hotelsMap;
+    }
 
 }

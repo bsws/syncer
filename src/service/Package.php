@@ -11,6 +11,7 @@ use Comparer\Package as PackageComparer;
 class Package extends Generic
 {
     protected $hydrator;
+    protected $hotelsMap = [];
 
     public function getHydrator()
     {
@@ -63,6 +64,17 @@ class Package extends Generic
     public function sync($packagesData)
     {
         try {
+        die("Solve this".__FILE__." - ".__LINE__);
+            $hotelService = $this->getSilexApplication()['service.hotel'];
+            $hotelService->buildHotelMap();
+            $this->hotelsMap = $hotelService->getHotelsMap();
+            ######################################
+            echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+            echo '<pre>';
+            print_r($this->hotelsMap);
+            echo '</pre>';
+            die;
+            ######################################
             foreach($packagesData as $data) {
                 $this->checkAndSync($data);
             }

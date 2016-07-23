@@ -4,12 +4,13 @@ namespace Metadata;
 class PackageDepartureDate
 {
     public static $table = 'package_departure_date';
+    public static $tableAlias = 'pdd';
 
     public function dbColumnsAliases()
     {
         return [
-            "pdd.package_id" => "pdd_package_id",
-            "pdd.departure_date_id" => "pdd_departure_date_id"
+            self::$tableAlias.".package_id" => self::$tableAlias."_package_id",
+            self::$tableAlias.".departure_date_id" => self::$tableAlias."_departure_date_id"
         ];
     }
 

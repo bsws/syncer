@@ -14,4 +14,5 @@ $console->add(new Command\SyncHotels());
 $console->add(new Command\SyncPackages());
 $console->add(new Command\SyncPrices());
 $console->add(new Command\PackageSearch());
+$console->add(new Command\CleanPackages());
 $console->run();
