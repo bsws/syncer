@@ -12,5 +12,6 @@ $console->add(new Command\DownloadGeography());
 $console->add(new Command\DownloadPackages());
 $console->add(new Command\SyncHotels());
 $console->add(new Command\SyncPackages());
+$console->add(new Command\SyncPrices());
 $console->add(new Command\PackageSearch());
 $console->run();
