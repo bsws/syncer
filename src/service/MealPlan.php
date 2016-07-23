@@ -43,13 +43,13 @@ class MealPlan extends Generic
     protected function addMealPlanToCacheArr(\Entity\MealPlan $mealPlan) 
     {
         if(!isset($this->mealPlans[$mealPlan->getTitle()])) {
-            $this->mealPlans[$mealPlan->getTitle()] = $mealPlan->getId();
+            $this->mealPlans[strtolower($mealPlan->getTitle())] = $mealPlan->getId();
         }
     }
 
     public function handleMealPlan($title)
     {
-        if(!isset($this->mealPlans[$title])) {
+        if(!isset($this->mealPlans[strtolower($title)])) {
             $mealStd = (object) null;
             $mealStd->Title = $title;
 
@@ -59,7 +59,7 @@ class MealPlan extends Generic
             $this->addMealPlanToCacheArr($newObject);
 
         }
-        return $this->mealPlans[$title];
+        return $this->mealPlans[strtolower($title)];
 
 
     }
