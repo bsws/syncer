@@ -1,22 +1,15 @@
 <?php
 namespace Service;
 
-use Metadata\HotelRoom as HotelRoomMetadata;
+use Metadata\PriceSet as PriceSetMetadata;
 
-class RoomCategory extends Generic
+class PriceSet extends Generic
 {
-    public function insertRoomCategory($roomCategory) {
-        //echo "To insert room category.\r\n";
-        $this->insertObject($roomCategory);
-        $this->getLogger()->info("The Room with pk {$roomCategory->getPkValue()} was inserted.");
-        return $roomCategory->getPkValue();
-    }
-
-    function getHotelRoomData($outputFields, $inputFields) 
+    function getPriceSetData($outputFields, $inputFields) 
     {
         $fieldsToGet = "*";
         if(!empty($outputFields)) {
-            $fieldAliases = HotelRoomMetadata::dbColumnsAliases();
+            $fieldAliases = PriceSetMetadata::dbColumnsAliases();
             $fieldsToGet = "";
             foreach($fieldAliases as $aliasKey => $aliasField) {
                 foreach($outputFields as $f) {
@@ -29,14 +22,14 @@ class RoomCategory extends Generic
 
         $conds = [];
         foreach($inputFields as $field => $val) {
-            $conds[] = HotelRoomMetadata::$tableAlias.".".$field." = '".$val."'";
+            $conds[] = PriceSetMetadata::$tableAlias.".".$field." = '".$val."'";
         }
 
         $q = "
             SELECT
                 ".rtrim($fieldsToGet, ", ")."
             FROM
-                ".HotelRoomMetadata::$table." ".HotelRoomMetadata::$tableAlias."
+                ".PriceSetMetadata::$table." ".PriceSetMetadata::$tableAlias."
             WHERE
                 ".implode(" AND ", $conds)."
             ";

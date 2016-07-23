@@ -2,7 +2,7 @@
 namespace Hydrator;
 
 use Interfaces\Hydrators;
-use Entity\MealPlan;
+use Entity\MealPlan as MealPlanEntity;
 
 class MealPlanGeneric implements Hydrators
 {
@@ -10,7 +10,7 @@ class MealPlanGeneric implements Hydrators
         //return new hotel room object
 
         //use a factory in the future
-        $newObj = new MealPlan();
+        $newObj = new MealPlanEntity();
 
         if(is_array($o)) {
             if(!empty($o['mp_id'])) {

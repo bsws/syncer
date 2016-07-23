@@ -1,8 +1,10 @@
 <?php
+die("this file is used anywhere? ".__FILE__.__LINE__);
 namespace Service;
 
 use Entity\HotelRoom as HotelRoomEntity;
 use Hydrator\HotelRoom as HotelRoomHydrator;
+use Metadata\HotelRoom as HotelRoomMetadata;
 
 class HotelRoom extends Generic
 {

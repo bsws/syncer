@@ -6,6 +6,7 @@ class Generic
 {
     protected $app = null;
     protected $dbal = null;
+    protected $hydrator = null;
     protected $providerData = null;
 
     public function __construct($app)

@@ -46,9 +46,7 @@ class SyncPrices extends \Knp\Command\Command
             //for the moment, we will use str_getcsv
             $pricesArr = file($app['settings']['pricesDownloadDir'].$providerIdent."/prices.csv");
             $synced = $service->sync($pricesArr);
-            echo "\r\nSynced: ",$synced,"\r\n";
-            die;
+            echo "\nThe prices were synced.\n";
         }
-
     }
 }

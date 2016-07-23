@@ -26,6 +26,17 @@ class Hotel extends Generic
         return $hotel;
     }
 
+    public function ensureProviderData($providerId = null)
+    {
+        if(empty($this->getProviderData)) {
+            if(!empty($providerId)) {
+                $this->setExtraParams(['providerData' => $this->getSilexApplication()['service.provider']->getProviderDataById($providerId)]);
+                return;
+            }
+            throw new \Exception("This object has no provider data.");
+        }
+    }
+
     public function translateFromStdObjects(array $objsToTranslate, $providerId, $providerIdent)
     {
         $retArr = [];
@@ -106,6 +117,8 @@ class Hotel extends Generic
         if(empty($idAtProvider)) {
             throw new \Exception("No id at provider specified for hotel object.");
         }
+
+        $this->ensureProviderData($providerId);
 
         $q = $this->getSelectSql();
         $dbArr = $this->getDb()->fetchAll($q, ["provider_id" => $providerId, "id_at_provider" => $idAtProvider]);

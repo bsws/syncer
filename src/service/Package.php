@@ -17,7 +17,7 @@ class Package extends Generic
         if(empty($this->hydrator)) {
             $providerData = $this->getProviderData();
             $depService = $this->getSilexApplication()["service.departure_date"];
-            $this->hydrator = PackageHydrator::getInstance($providerData['id'], $providerData['ident'], $depService);
+            $this->hydrator = PackageHydrator::getInstance($providerData, $depService, $this->getSilexApplication()['service.hotel']);
         }
 
         return $this->hydrator;
@@ -57,7 +57,6 @@ class Package extends Generic
                 die("@TODO - To be imlemented(".__FILE__.", ".__LINE__.")");
             }
         }
-
 
     }
 
@@ -163,6 +162,46 @@ class Package extends Generic
             return $this->getDb()->delete(PackageDepartureDateMetadata::$table, ["package_id" => $Package->getId()]);
         } 
         return null;
+    }
+
+    function getPackageData($outputFields, $inputFields) 
+    {
+        $fieldsToGet = "*";
+        if(!empty($outputFields)) {
+            $fieldAliases = PackageMetadata::dbColumnsAliases();
+            $fieldsToGet = "";
+            foreach($fieldAliases as $aliasKey => $aliasField) {
+                foreach($outputFields as $f) {
+                    if($aliasField == $f) {
+                        $fieldsToGet .= $aliasKey." ".$aliasField.", ";
+                    }
+                }
+            }
+        }
+
+        $conds = [];
+        foreach($inputFields as $field => $val) {
+            $conds[] = PackageMetadata::$tableAlias.".".$field." = '".$val."'";
+        }
+
+        $q = "
+            SELECT
+                ".rtrim($fieldsToGet, ", ")."
+            FROM
+                ".PackageMetadata::$table." ".PackageMetadata::$tableAlias."
+            WHERE
+                ".implode(" AND ", $conds)."
+            ";
+
+        try {
+            $data = $this->getDb()->fetchAssoc($q);
+        } catch(\Exception $Ex) {
+            echo $Ex->getMessage();
+            die;
+            $data = [];
+        }
+
+        return $data;
     }
 
 }

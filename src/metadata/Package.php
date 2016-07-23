@@ -4,26 +4,27 @@ namespace Metadata;
 class Package implements \Interfaces\Metadata
 {
     public static $table = 'package';
+    public static $tableAlias = 'p';
 
     public static function dbColumnsAliases()
     {
         return [
-            'p.id'  => 'p_id', 
-            'p.provider_id' => 'p_provider_id', 
-            'p.id_at_provider'  => 'p_id_at_provider', 
-            'p.name'    => 'p_name', 
-            'p.is_tour' => 'p_is_tour', 
-            'p.is_bus'  => 'p_is_bus', 
-            'p.is_flight'   => 'p_is_flight', 
-            'p.duration'    => 'p_duration', 
-            'p.outbound_transport_duration' => 'p_outbound_transport_duration', 
-            'p.description' => 'p_description',
-            'p.destination_id'  => 'p_destination_id', 
-            'p.included_services'   => 'p_included_services', 
-            'p.not_included_services'   => 'p_not_included_services', 
-            'p.hotel_id'    => 'p_hotel_id', 
-            'p.hotel_source_id' => 'p_hotel_source_id', 
-            'p.currency_id' => 'p_currency_id'
+            self::$tableAlias.'.id'  => self::$tableAlias.'_id', 
+            self::$tableAlias.'.provider_id' => self::$tableAlias.'_provider_id', 
+            self::$tableAlias.'.id_at_provider'  => self::$tableAlias.'_id_at_provider', 
+            self::$tableAlias.'.name'    => self::$tableAlias.'_name', 
+            self::$tableAlias.'.is_tour' => self::$tableAlias.'_is_tour', 
+            self::$tableAlias.'.is_bus'  => self::$tableAlias.'_is_bus', 
+            self::$tableAlias.'.is_flight'   => self::$tableAlias.'_is_flight', 
+            self::$tableAlias.'.duration'    => self::$tableAlias.'_duration', 
+            self::$tableAlias.'.outbound_transport_duration' => self::$tableAlias.'_outbound_transport_duration', 
+            self::$tableAlias.'.description' => self::$tableAlias.'_description',
+            self::$tableAlias.'.destination_id'  => self::$tableAlias.'_destination_id', 
+            self::$tableAlias.'.included_services'   => self::$tableAlias.'_included_services', 
+            self::$tableAlias.'.not_included_services'   => self::$tableAlias.'_not_included_services', 
+            self::$tableAlias.'.hotel_id'    => self::$tableAlias.'_hotel_id', 
+            self::$tableAlias.'.hotel_source_id' => self::$tableAlias.'_hotel_source_id', 
+            self::$tableAlias.'.currency_id' => self::$tableAlias.'_currency_id'
         ];
     }
 

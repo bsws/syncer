@@ -4,17 +4,18 @@ namespace Metadata;
 class HotelRoom implements \Interfaces\Metadata
 {
     public static $table = "hotel_room_category";
+    public static $tableAlias = "hrc";
     /**
     *  hotel room table column with aliases for select query
     */
     public static function dbColumnsAliases()
     {
         return [
-            'hrc.id' => 'hrc_id',
-            'hrc.id_at_provider' => 'hrc_id_at_provider',
-            'hrc.hotel_id' => 'hrc_hotel_id',
-            'hrc.name' => 'hrc_name',
-            'hrc.description' => 'hrc_description'
+            self::$tableAlias.'.id' => self::$tableAlias.'_id',
+            self::$tableAlias.'.id_at_provider' => self::$tableAlias.'_id_at_provider',
+            self::$tableAlias.'.hotel_id' => self::$tableAlias.'_hotel_id',
+            self::$tableAlias.'.name' => self::$tableAlias.'_name',
+            self::$tableAlias.'.description' => self::$tableAlias.'_description'
         ];
     }
 

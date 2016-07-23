@@ -7,14 +7,21 @@ use Entity\Package as PackageEntity;
 class PackageChristiantour implements Hydrators
 {
     protected $providerId;
+    protected $providerIdent;
     protected $depService = null;
-    const PROVIDER_IDENT = "christiantour";
+    protected $hotelService = null;
 
-    public function __construct($providerId, $depService = null)
+    public function __construct($providerData, $depService = null, $hotelService = null)
     {
-        $this->providerId = $providerId;
+        $this->providerId = $providerData['id'];
+        $this->providerIdent = $providerData['ident'];
+
         if(!is_null($depService)) {
             $this->depService = $depService;
+        }
+
+        if(!is_null($hotelService)) {
+            $this->hotelService = $hotelService;
         }
     }
 
@@ -35,7 +42,7 @@ class PackageChristiantour implements Hydrators
         $newObj = new PackageEntity();
         $newObj->setProviderId($this->getProviderId());
         $detailedDescriptionHydrator = DetailedDescription::getInstance();
-        $priceSetsHydrator = PriceSet::getInstance($this->getProviderId(), self::PROVIDER_IDENT);
+        $priceSetsHydrator = PriceSet::getInstance($this->getProviderId(), $this->providerIdent);
 
         if(is_array($inData)) {
 
@@ -112,7 +119,11 @@ class PackageChristiantour implements Hydrators
             $newObj->setDestinationId($o->Destination);
             $newObj->setIncludedServices($o->IncludedServices);
             $newObj->setNotIncludedServices($o->NotIncludedServices);
-            $newObj->setHotelId($o->Hotel);
+
+            $dbHotel = $this->hotelService->getHotelFromDb($this->getProviderId(), $o->Hotel);
+            if(!empty($dbHotel)) {
+                $newObj->setHotelId($dbHotel->getId());
+            }
             $newObj->setHotelSourceId($o->HotelSource);
             $newObj->setCurrencyId($o->Currency);
 

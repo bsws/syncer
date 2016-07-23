@@ -28,7 +28,7 @@ class DepartureDate extends Generic
         return $this->hydrator;
     }
 
-    protected function getAll()
+    public function getAll()
     {
         $q = "SELECT * FROM ".DepartureDateMetadata::$table." t ORDER BY at DESC";
         $dbArr = $this->getDb()->fetchAll($q);

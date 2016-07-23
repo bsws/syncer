@@ -4,19 +4,20 @@ namespace Metadata;
 class PriceSet implements \Interfaces\Metadata
 {
     public static $table = 'price_set';
+    public static $tableAlias = 'ps';
 
     public static function dbColumnsAliases()
     {
         return [
-            'ps.id'  => 'ps_id', 
-            'ps.id_at_provider'  => 'ps_id_at_provider', 
-            'ps.package_id' => 'ps_package_id', 
-            'ps.title'    => 'ps_title', 
-            'ps.description' => 'ps_description', 
-            'ps.valid_from'  => 'ps_valid_from', 
-            'ps.valid_to'   => 'ps_valid_to', 
-            'ps.travel_from'    => 'ps_travel_from', 
-            'ps.travel_to' => 'ps_travel_to'
+            self::$tableAlias.'.id'  => self::$tableAlias.'_id', 
+            self::$tableAlias.'.id_at_provider'  => self::$tableAlias.'_id_at_provider', 
+            self::$tableAlias.'.package_id' => self::$tableAlias.'_package_id', 
+            self::$tableAlias.'.title'    => self::$tableAlias.'_title', 
+            self::$tableAlias.'.description' => self::$tableAlias.'_description', 
+            self::$tableAlias.'.valid_from'  => self::$tableAlias.'_valid_from', 
+            self::$tableAlias.'.valid_to'   => self::$tableAlias.'_valid_to', 
+            self::$tableAlias.'.travel_from'    => self::$tableAlias.'_travel_from', 
+            self::$tableAlias.'.travel_to' => self::$tableAlias.'_travel_to'
         ];
     }
 

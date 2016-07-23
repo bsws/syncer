@@ -9,7 +9,9 @@ use Service\Hotel as HotelService;
 use Service\RoomCategory as RoomCategoryService;
 use Service\DetailedDescription as DetailedDescription;
 use Service\Package as PackageService;
+use Service\PriceSet as PriceSetService;
 use Service\Price as PriceService;
+use Service\MealPlan as MealPlanService;
 use Service\DepartureDate as DepartureDateService;
 
 $keys = Keys::provide();
@@ -62,6 +64,12 @@ $app['service.package'] = function($app){
 };
 $app['service.price'] = function($app){
     return new PriceService($app);
+};
+$app['service.price_set'] = function($app){
+    return new PriceSetService($app);
+};
+$app['service.meal_plan'] = function($app){
+    return new MealPlanService($app);
 };
 $app['service.departure_date'] = function($app){
     return new DepartureDateService($app);

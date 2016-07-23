@@ -31,7 +31,7 @@ class MealPlan extends Generic implements GenericEntity
         return $this->title;
     }
 
-    public function toArray()
+    public function toArray($deep = false)
     {
         return [
             'id' => $this->getId(),

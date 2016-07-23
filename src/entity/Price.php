@@ -4,33 +4,29 @@ namespace Entity;
 
 use Interfaces\GenericEntity as GenericEntityInterface;
 use Entity\Generic as GenericEntity;
-use Metadata\PriceSet as PriceSetMetadata;
+use Metadata\Price as PriceMetadata;
 
 /**
  * Price
  */
-class PriceSet extends GenericEntity implements GenericEntityInterface
+class Price extends GenericEntity implements GenericEntityInterface
 {
-    private $id;
-    private $packageId;
-    private $hotelRoomCategoryId;
-    private $priceSetId;
-    private $departureDateId;
-    private $gross;
-    private $tax;
-    private $mealTypeId;
-    private $insertedAt;
+    protected $id;
+    protected $packageId;
+    protected $hotelRoomCategoryId;
+    protected $priceSetId;
+    protected $departureDateId;
+    protected $gross;
+    protected $tax;
+    protected $mealPlanId;
+    protected $insertedAt;
 
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
-    /**
-     * Get id
-     *
-     * @return int
-     */
+
     public function getId()
     {
         return $this->id;
@@ -39,7 +35,6 @@ class PriceSet extends GenericEntity implements GenericEntityInterface
     public function setIdAtProvider($idAtProvider)
     {
         $this->idAtProvider = $idAtProvider;
-
         return $this;
     }
 
@@ -59,85 +54,95 @@ class PriceSet extends GenericEntity implements GenericEntityInterface
         return $this->packageId;
     }
 
-    public function setLabel($label)
+    public function setHotelRoomCategoryId($hotelRoomCategoryId)
     {
-        $this->label = $label;
-
+        $this->hotelRoomCategoryId = $hotelRoomCategoryId;
         return $this;
     }
 
-    public function getLabel()
+    public function getHotelRoomCategoryId()
     {
-        return $this->label;
+        return $this->hotelRoomCategoryId;
     }
 
-    public function setDescription($description)
+    public function setPriceSetId($priceSetId)
     {
-        $this->description = $description;
+        $this->priceSetId = $priceSetId;
         return $this;
     }
 
-    public function getDescription()
+    public function getPriceSetId()
     {
-        return $this->description;
+        return $this->priceSetId;
     }
 
-    public function setValidFrom($str)
+    public function setDepartureDateId($departureDateId)
     {
-        $this->validFrom = $str;
+        $this->departureDateId = $departureDateId;
         return $this;
     }
 
-    public function getValidFrom()
+    public function getDepartureDateId()
     {
-        return $this->validFrom;
+        return $this->departureDateId;
     }
 
-    public function setValidTo($str)
+    public function setGross($gross)
     {
-        $this->validTo = $str;
+        $this->gross = $gross;
         return $this;
     }
 
-    public function getValidTo()
+    public function getGross()
     {
-        return $this->validTo;
+        return $this->gross;
     }
 
-    public function setTravelFrom($str)
+    public function setTax($tax)
     {
-        $this->travelFrom = $str;
+        $this->tax = $tax;
         return $this;
     }
 
-    public function getTravelFrom()
+    public function getTax()
     {
-        return $this->travelFrom;
+        return $this->tax;
     }
 
-    public function setTravelTo($str)
+    public function setMealPlanId($mealPlanId)
     {
-        $this->travelTo = $str;
+        $this->mealPlanId = $mealPlanId;
         return $this;
     }
 
-    public function getTravelTo()
+    public function getMealPlanId()
     {
-        return $this->travelTo;
+        return $this->mealPlanId;
+    }
+
+    public function setInsertDate()
+    {
+        $this->insertedAt = date("Y-m-d H:i:s");
+        return $this;
+    }
+
+    public function getInsertedAt()
+    {
+        return $this->insertedAt;
     }
 
     public function toArray($deep = false)
     {
         $retArr = [
             'id'  => $this->getId(), 
-            'id_at_provider'  => $this->getIdAtProvider(), 
-            'package_id'    => $this->getPackageId(), 
-            'label'    => $this->getLabel(), 
-            'description'    => $this->getDescription(), 
-            'valid_from' => $this->getValidFrom(), 
-            'valid_to'  => $this->getValidTo(), 
-            'travel_from'   => $this->getTravelFrom(), 
-            'travel_to'    => $this->getTravelTo(), 
+            'package_id' => $this->getPackageId(), 
+            'hotel_room_category_id'    => $this->getHotelRoomCategoryId(), 
+            'price_set_id' => $this->getPriceSetId(), 
+            'departure_date_id'  => $this->getDepartureDateId(), 
+            'gross'   => $this->getGross(), 
+            'tax'    => $this->getTax(), 
+            'meal_plan_id' => $this->getMealPlanId(),
+            'inserted_at' => $this->getInsertedAt()
         ];
 
         return $retArr;
@@ -156,7 +161,7 @@ class PriceSet extends GenericEntity implements GenericEntityInterface
 
     public function getTableName()
     {
-        return PriceSetMetadata::$table;
+        return PriceMetadata::$table;
     }
 }
 
