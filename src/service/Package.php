@@ -8,6 +8,8 @@ use Metadata\Package as PackageMetadata;
 use Metadata\PackageDepartureDate as PackageDepartureDateMetadata;
 use Comparer\Package as PackageComparer;
 
+use Util\Time as TimeUtils;
+
 class Package extends Generic
 {
     protected $hydrator;
@@ -41,9 +43,11 @@ class Package extends Generic
     protected function checkAndSync($packageConfig)
     {
         $depService = $this->getSilexApplication()["service.departure_date"];
-        //$depDateId = $depService->handleDepartureDate("2026-01-01");
-        //die($depDateId);
         $providerData = $this->getProviderData();
+
+        //this is a little nasty
+        $packageConfig->Hotel = $this->hotelsMap[$packageConfig->Hotel];
+
         $providerEntity = $this->translateFromStdObject($packageConfig);
         $dbEntity = $this->getPackageFromDb($providerData['id'], $providerEntity->getIdAtProvider());
 
@@ -52,7 +56,7 @@ class Package extends Generic
         if(true !== $packageDiff) {
             if(-1 === $packageDiff) {
                 $this->insertPackage($providerEntity);
-                $this->getLogger()->info("The package {$providerEntity->getId()}. - \"{$providerEntity->getName()}\" was inserted.");
+                //$this->getLogger()->info("The package {$providerEntity->getId()}. - \"{$providerEntity->getName()}\" was inserted.");
                 echo "The package {$providerEntity->getId()}. - \"{$providerEntity->getName()}\" was inserted.\r\n";
             } else {
                 die("@TODO - To be imlemented(".__FILE__.", ".__LINE__.")");
@@ -64,19 +68,25 @@ class Package extends Generic
     public function sync($packagesData)
     {
         try {
-        die("Solve this".__FILE__." - ".__LINE__);
+            //set the hotels map
             $hotelService = $this->getSilexApplication()['service.hotel'];
+            $hotelService->setExtraParams(['providerData' => $this->getProviderData()]);
             $hotelService->buildHotelMap();
             $this->hotelsMap = $hotelService->getHotelsMap();
-            ######################################
-            echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
-            echo '<pre>';
-            print_r($this->hotelsMap);
-            echo '</pre>';
-            die;
-            ######################################
+
             foreach($packagesData as $data) {
+                $startTime = TimeUtils::microTimeFloat();
                 $this->checkAndSync($data);
+                $endTime = TimeUtils::microTimeFloat();
+
+                $timeMessage = "";
+                $timeMessage .= "Time spent: ";
+                $timeMessage .= number_format($endTime - $startTime, 3);
+                $timeMessage .= " sec.";
+
+                //$this->getLogger()->info($timeMessage);
+                $timeMessage .= "\n\n";
+                echo $timeMessage;
             }
         } catch(\Exception $Ex) {
             echo $Ex->getMessage();
@@ -215,5 +225,6 @@ class Package extends Generic
 
         return $data;
     }
+
 
 }

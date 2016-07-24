@@ -34,7 +34,7 @@ class MealPlan extends Generic
         $retArr = [];
 
         foreach($dbArr as $entry) {
-            $retArr[$entry["title"]] = $entry["id"];
+            $retArr[strtolower($entry["title"])] = $entry["id"];
         }
 
         return $retArr;
@@ -42,7 +42,7 @@ class MealPlan extends Generic
 
     protected function addMealPlanToCacheArr(\Entity\MealPlan $mealPlan) 
     {
-        if(!isset($this->mealPlans[$mealPlan->getTitle()])) {
+        if(!isset($this->mealPlans[strtolower($mealPlan->getTitle())])) {
             $this->mealPlans[strtolower($mealPlan->getTitle())] = $mealPlan->getId();
         }
     }

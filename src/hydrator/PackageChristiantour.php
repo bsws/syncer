@@ -11,17 +11,13 @@ class PackageChristiantour implements Hydrators
     protected $depService = null;
     protected $hotelService = null;
 
-    public function __construct($providerData, $depService = null, $hotelService = null)
+    public function __construct($providerData, $depService = null)
     {
         $this->providerId = $providerData['id'];
         $this->providerIdent = $providerData['ident'];
 
         if(!is_null($depService)) {
             $this->depService = $depService;
-        }
-
-        if(!is_null($hotelService)) {
-            $this->hotelService = $hotelService;
         }
     }
 
@@ -119,11 +115,7 @@ class PackageChristiantour implements Hydrators
             $newObj->setDestinationId($o->Destination);
             $newObj->setIncludedServices($o->IncludedServices);
             $newObj->setNotIncludedServices($o->NotIncludedServices);
-
-            $dbHotel = $this->hotelService->getHotelFromDb($this->getProviderId(), $o->Hotel);
-            if(!empty($dbHotel)) {
-                $newObj->setHotelId($dbHotel->getId());
-            }
+            $newObj->setHotelId($o->Hotel);
             $newObj->setHotelSourceId($o->HotelSource);
             $newObj->setCurrencyId($o->Currency);
 
