@@ -54,11 +54,11 @@ class SyncPrices extends \Knp\Command\Command
             $synced = $service->sync($pricesArr);
 
             $endTime = TimeUtils::microTimeFloat();
-            $timeSpent = number_format($endTime - $startTime, 3);
+            $timeSpent = number_format(($endTime - $startTime) / 60, 3);
 
-            $message = "Prices syncronization ended. Time spend:  ".$timeSpent;
+            $message = "Prices syncronization ended. Time spend:  ".$timeSpent." minutes";
             $output->writeln("<info>".$message."</info>");
-            $logger->notice();
+            $logger->notice($message);
         }
     }
 }
