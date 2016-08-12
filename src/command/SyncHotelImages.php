@@ -10,14 +10,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class SyncHotels extends \Knp\Command\Command 
+class SyncHotelImages extends \Knp\Command\Command 
 {
     use \Traits\Command;
 
     protected function configure()
     {
-        $this->setName("sync:hotel:data")
-            ->setDescription("Syncronizes the hotels for a given provider.")
+        $this->setName("sync:hotel:images")
+            ->setDescription("Syncronizes the hotels images for a given provider.")
             ->addArgument(
                 "provider",
                 InputArgument::REQUIRED,
@@ -35,17 +35,17 @@ class SyncHotels extends \Knp\Command\Command
 
         $logger = $app["monolog"];
 
-        $logger->notice("Start hotels syncronization for ".$providerIdent);
+        $logger->notice("Start hotel images syncronization for ".$providerIdent);
 
         if(empty($providerData)) {
             $output->writeln("<error>Invalid provider identificator provided.</error>");
             return;
         } else {
-            $service->setExtraParams(["providerData" => $providerData, 'app' => $app]);
+            $service->setExtraParams(["providerData" => $providerData]);
+            //$packagesArr = json_decode(file_get_contents($app['settings']['packagesDownloadDir'].$providerIdent."/packages.json"));
             $hotelsArr = json_decode(file_get_contents($app['settings']['hotelsDownloadDir'].$providerIdent."/hotels.json"));
-            $o = $service->translateFromStdObjects($hotelsArr, $providerData['id'], $providerIdent);
-            $synced = $service->sync($o, $providerData['id'], $providerIdent);
-            echo "\r\nSynced: ",$synced,"\r\n";
+            $syncData = $service->syncImages($hotelsArr);
+            echo "\r\nThe images sync job has been ended.\r\n";
             die;
         }
 

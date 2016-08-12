@@ -13,6 +13,7 @@ use Service\PriceSet as PriceSetService;
 use Service\Price as PriceService;
 use Service\MealPlan as MealPlanService;
 use Service\DepartureDate as DepartureDateService;
+use Service\Destination as DestinationService;
 
 $keys = Keys::provide();
 
@@ -73,4 +74,7 @@ $app['service.meal_plan'] = function($app){
 };
 $app['service.departure_date'] = function($app){
     return new DepartureDateService($app);
+};
+$app['service.destination'] = function($app){
+    return new DestinationService($app);
 };

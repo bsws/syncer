@@ -296,4 +296,37 @@ class Hotel extends Generic
         return $this->hotelsMap;
     }
 
+    public function syncImages($hotelData)
+    {
+        $providerData = $this->getProviderData();
+        $this->buildHotelMap();
+        $this->getDb()->executeQuery("TRUNCATE table hotel_images;");
+        try {
+            foreach($hotelData as $data) {
+                if(!empty($data->Images) && !empty($this->hotelsMap[$data->Id])/* || !empty($data->HotelAmenities)*/) {
+                    $imagesQ = "INSERT INTO hotel_images(provider_id, id_at_provider, hotel_id, mime_type, name) VALUES ";
+                    $valuesToBind = [];
+                    foreach($data->Images as $imgData) {
+                        //get hotel data from db
+                        $imagesQ .= "({$providerData['id']}, {$data->Id}, {$this->hotelsMap[$data->Id]}, ?, ?),";
+                        $valuesToBind[] = $imgData->MimeType;
+                        $valuesToBind[] = $imgData->Name;
+                    }
+                    $imagesQ = rtrim($imagesQ, ",");
+                    $conn = $this->getDb();
+                    $stmt = $this->getDb()->prepare($imagesQ);
+                    foreach($valuesToBind as $index => $value) {
+                        $stmt->bindValue($index + 1, $value);
+                    }
+                    $stmt->execute();
+                    echo "Inserted images for the hotel ".$data->Name."\n";
+                }
+
+            }
+        } catch(\Exception $Ex) {
+            echo $Ex->getMessage();
+            die();
+        }
+    }
+
 }

@@ -225,6 +225,4 @@ class Package extends Generic
 
         return $data;
     }
-
-
 }
