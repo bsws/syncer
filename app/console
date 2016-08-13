@@ -18,4 +18,5 @@ $console->add(new Command\CleanPackages());
 $console->add(new Command\InsertDestinations());
 $console->add(new Command\SyncHotelImages());
 $console->add(new Command\UpdateDestsOffersNumbers());
+$console->add(new Command\DownloadImages());
 $console->run();

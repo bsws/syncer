@@ -308,7 +308,7 @@ class Hotel extends Generic
                     $valuesToBind = [];
                     foreach($data->Images as $imgData) {
                         //get hotel data from db
-                        $imagesQ .= "({$providerData['id']}, {$data->Id}, {$this->hotelsMap[$data->Id]}, ?, ?),";
+                        $imagesQ .= "({$providerData['id']}, {$imgData->Id}, {$this->hotelsMap[$data->Id]}, ?, ?),";
                         $valuesToBind[] = $imgData->MimeType;
                         $valuesToBind[] = $imgData->Name;
                     }
