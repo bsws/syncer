@@ -1,3 +1,4 @@
 config/Settings.php
 uploadwork.sh
 rsyncexclude
+.git

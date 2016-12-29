@@ -27,7 +27,7 @@ class CleanPackages extends \Knp\Command\Command
             ;
     }
 
-    protected function execute($input, $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $app = $this->getSilexApplication();
         $db = $app['db'];
@@ -37,10 +37,16 @@ class CleanPackages extends \Knp\Command\Command
         $logger->info("Start table cleaning.");
         $output->writeln("<info>Start table cleaning...</info>");
 
-        $tables = [\Metadata\Package::$table, \Metadata\PackageDepartureDate::$table, \Metadata\DepartureDate::$table, \Metadata\PriceSet::$table];
+        $tables = [
+            \Metadata\Package::$table, 
+            \Metadata\PackageDepartureDate::$table, 
+            \Metadata\DepartureDate::$table, 
+            \Metadata\PackageDeparturePoint::$table, 
+            \Metadata\PriceSet::$table];
 
         if ($input->getOption('clear-prices')) {
             $tables[] = \Metadata\Price::$table;
+            $tables[] = \Metadata\PriceSet::$table;
         }
 
         foreach($tables as $table) {

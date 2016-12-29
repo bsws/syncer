@@ -3,9 +3,11 @@ namespace Service;
 
 use Entity\Package as PackageEntity;
 use Entity\PackageDepartureDate as PackageDepartureDateEntity;
+use Entity\PackageDeparturePoint as PackageDeparturePointEntity;
 use Hydrator\Package as PackageHydrator;
 use Metadata\Package as PackageMetadata;
 use Metadata\PackageDepartureDate as PackageDepartureDateMetadata;
+use Metadata\PackageDeparturePoint as PackageDeparturePointMetadata;
 use Comparer\Package as PackageComparer;
 
 use Util\Time as TimeUtils;
@@ -46,6 +48,15 @@ class Package extends Generic
         $providerData = $this->getProviderData();
 
         //this is a little nasty
+        if(empty($this->hotelsMap[$packageConfig->Hotel])) {
+            ######################################
+            echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+            echo '<pre>';
+            print_r($packageConfig);
+            echo '</pre>';
+            echo "Cannot find the hotel with id: ".$packageConfig->Hotel;
+            return;
+        }
         $packageConfig->Hotel = $this->hotelsMap[$packageConfig->Hotel];
 
         $providerEntity = $this->translateFromStdObject($packageConfig);
@@ -60,7 +71,7 @@ class Package extends Generic
                 echo "The package {$providerEntity->getId()}. - \"{$providerEntity->getName()}\" was inserted.\r\n";
             } else {
                 die("@TODO - To be imlemented(".__FILE__.", ".__LINE__.")");
-            }
+            } 
         }
 
     }
@@ -176,12 +187,30 @@ class Package extends Generic
                 $this->insertObject($depDateId);
             }
         }
+
+        if(!empty($package->getDeparturePoints())) {
+            $this->deleteDeparturePoints($package);
+            foreach($package->getDeparturePoints() as $pointId) {
+                $depPoint = new PackageDeparturePointEntity();
+                $depPoint->setPackageId($package->getId());
+                $depPoint->setDeparturePointId($pointId);
+                $this->insertObject($depPoint);
+            }
+        }
     }
 
     protected function deleteDepartureDateIds($Package)
     {
         if(!empty($Package->getId())) {
             return $this->getDb()->delete(PackageDepartureDateMetadata::$table, ["package_id" => $Package->getId()]);
+        } 
+        return null;
+    }
+
+    protected function deleteDeparturePoints($Package)
+    {
+        if(!empty($Package->getId())) {
+            return $this->getDb()->delete(PackageDeparturePointMetadata::$table, ["package_id" => $Package->getId()]);
         } 
         return null;
     }

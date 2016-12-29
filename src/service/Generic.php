@@ -65,6 +65,8 @@ class Generic
                 break;
                 default:
                     $this->getLogger()->info($Ex->getMessage());
+                    print_r(get_class_methods($Ex));
+                    die;
                     echo $Ex->getMessage();
                 break;
             }

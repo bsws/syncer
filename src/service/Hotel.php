@@ -8,6 +8,8 @@ use Metadata\Description as DescriptionMetadata;
 use Metadata\HotelRoom as HotelRoomMetadata;
 use Comparer\Hotel as HotelComparer;
 
+use Cocur\Slugify\Slugify;
+
 //@TODO - finish the work to complete the update of the hotel data and annexes
 
 class Hotel extends Generic
@@ -100,6 +102,15 @@ class Hotel extends Generic
 
         $this->getLogger()->info("The hotel with id {$objToInsert->getId()} was inserted.");
 
+        if($objToInsert->getIdAtProvider() == 6245) {
+            ######################################
+            echo '<div style="color:red;background-color:yellow;">'.__FILE__.':'.__LINE__.'</div>';
+            echo '<pre>';
+            print_r($objToInsert);
+            echo '</pre>';
+            ######################################
+        }
+
         return $objToInsert;
     }
 
@@ -134,6 +145,7 @@ class Hotel extends Generic
 
     protected function checkAndSync($hotel)
     {
+
         if(empty($hotel->getProviderId())) {
             throw new \Exception("No provider id specified for hotel object.");
         }
@@ -159,6 +171,7 @@ class Hotel extends Generic
                     // die;
                 }
                 if(!empty($arr["update"])) {
+                    print("Should perform an update for id ". $hotel->getIdAtProvider() ."\r\n");
                     //perform an update
                 }
             }
@@ -326,6 +339,21 @@ class Hotel extends Generic
         } catch(\Exception $Ex) {
             echo $Ex->getMessage();
             die();
+        }
+    }
+
+    public function slugifyHotels() 
+    {
+        try {
+            $slugifier = new Slugify();
+            $db = $this->getDb();
+            $hotels = $db->fetchAll("SELECT h.id id, h.name name, d.name location FROM hotel h LEFT JOIN destination d ON h.location = d.id WHERE h.slug IS NULL");
+            foreach($hotels as $k => $arr) {
+                $slug = $slugifier->slugify($arr['name'].' '.$arr['location'] );
+                $db->executeUpdate('UPDATE hotel SET slug = ? WHERE id = ?', [$slug, $arr['id']]);
+            }
+        } catch(\Exception $Ex) {
+            echo $Ex->getMessage();
         }
     }
 

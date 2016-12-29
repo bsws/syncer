@@ -24,7 +24,7 @@ class SyncGeography extends \Knp\Command\Command
             ;
     }
 
-    protected function execute($input, $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $app = $this->getSilexApplication();
         $service = $app['service.geography'];
